@@ -1,6 +1,6 @@
 #' 3D plot of line-cross GP-map
 #'
-#'\code{linecross} uses multilinear model ...please write a proper description later
+#'\code{plot_linecross} uses multilinear model ...please write a proper description later
 #'
 #' @param output.model fitted model object of the format linecross
 #' @param data data.frame with three columns (derivatives, means, standard errors)
