@@ -17,8 +17,8 @@
 #'
 #' @export
 #'
-plot_linecross <- function(output.model,data, theta, phi, margins){
-  par(mar=margins) #### hello
+plot_linecross <- function(output.model,data, theta, phi, margins,col.triangle){
+  par(mar=margins)
   model=output.model$model.information[[1]]
   reference=output.model$model.information[[2]]
   S_complete= c(1, 0, 1/2,  1/2, 1/2, 1/2, 1/2, 1/2, 3/4, 3/4, 3/4, 3/4, 1/4, 1/4, 1/4, 1/4)
@@ -36,17 +36,24 @@ plot_linecross <- function(output.model,data, theta, phi, margins){
   l2 <- 1-abs(1-2*l1)
   l3 <- seq(0.05,0.45, 0.05)
 
-  linears=c("additive", "dominance", "add_dom", "general_epistasis", "generalWB")
-  non_linears= c("multilinear", "canalization","multi_dom")
+  linears=c("additive", "dominance", "add_dom", "general", "general_dom", "generalWB", "generalWB_dom", "generalW", "generalW_dom", "generalB", "generalB_dom", "classic")
+  non_linears= c("multilinear", "canalization","multilinear_add")
 
-  if(model %in% linears == TRUE) { read.model <-function(S,H,par) eval(parse(text=Mlist[[reference]][[model]][[3]]))}
-  if(model %in% non_linears == TRUE){ read.model <-function(S,H,par) eval(parse(text=Mlist[[reference]][[model]][[1]])) }
+  if(model %in% linears == TRUE) {
+    read.model <-function(S,H,par) eval(parse(text=Mlist[[reference]][[model]][[3]]))
+    no.parameters=length(Mlist[[reference]][[model]][[2]])+1
+  }
+  if(model %in% non_linears == TRUE){
+    read.model <-function(S,H,par) eval(parse(text=Mlist[[reference]][[model]][[1]]))
+    no.parameters=length(Mlist[[reference]][[model]][[2]])+1
+  }
 
-  FUNK <- function(X,Y) as.numeric(output.model$model.information[3]) +read.model(X,Y, as.numeric(output.model$parameters))
+  FUNK <- function(X,Y) as.numeric(output.model$parameters[1]) +read.model(X,Y, as.numeric(output.model$parameters[2:no.parameters]))
+
   original_mat= outer(AA,AA,FUNK)
   reverse_mat =original_mat[nrow(original_mat):1,]
-  minimum=min(sub_data$means,reverse_mat)-0.01*min(sub_data$means,reverse_mat)
-  maximum=max(sub_data$means,reverse_mat)+0.01*max(sub_data$means,reverse_mat)
+  minimum=min(sub_data$means,reverse_mat)-0.05*min(sub_data$means,reverse_mat)
+  maximum=max(sub_data$means,reverse_mat)+0.05*max(sub_data$means,reverse_mat)
   persp(x=AA, y=AA, reverse_mat, theta =theta, phi = phi, xlab="1-S" ,ylab="H",zlab="z", cex.lab=1, border="gray88",zlim=c(minimum, maximum)) -> res
 
   data.model_2D = trans3d(1-S,H, FUNK(S,H), pmat=res)
@@ -54,14 +61,14 @@ plot_linecross <- function(output.model,data, theta, phi, margins){
   for(j in 1:9){
     x<-rep(l1[j], 50)
     y<-seq(0,l2[j], length.out=50)
-    lines(trans3d(1-x,y,FUNK(x,y), pmat=res), col="grey")
+    lines(trans3d(1-x,y,FUNK(x,y), pmat=res), col=col.triangle)
   }
   for(k in 1:9){
     y<-rep(l1[k], 50)
     x<-seq(l3[k],1-l3[k], length.out=50)
-    lines(trans3d(1-x,y,FUNK(x,y), pmat=res), col="grey")
+    lines(trans3d(1-x,y,FUNK(x,y), pmat=res), col=col.triangle)
   }
-  lines(trans3d(1-ss,hh, FUNK(ss,hh), pmat=res), lwd=2, col="grey")
+  lines(trans3d(1-ss,hh, FUNK(ss,hh), pmat=res), lwd=2, col=col.triangle)
   segments(x0=data.model_2D$x, x1=data_2D$x, y0=data.model_2D$y, y1=data_2D$y, col="black",lty=2,lwd=0.8)
   points(data.model_2D, pch=19, cex=1.2, col="gray68")
   points(data_2D, pch=19, cex=1.2, col="black")
