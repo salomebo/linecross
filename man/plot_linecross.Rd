@@ -4,18 +4,20 @@
 \alias{plot_linecross}
 \title{3D plot of line-cross GP-map}
 \usage{
-plot_linecross(output.model, data, theta, phi, margins)
+plot_linecross(output.model, data, theta, phi, margins, col.triangle)
 }
 \arguments{
 \item{output.model}{fitted model object of the format linecross}
 
-\item{data}{data.frame with three columns (derivatives, means, se)}
+\item{data}{data.frame with three columns (derivatives, means, standard errors)}
 
 \item{theta}{same as function \code{\link{persp}}}
 
 \item{phi}{same as function \code{\link{persp}}}
 
 \item{margins}{same as function \code{mar} in \code{\link{par}}}
+
+\item{col.triangle}{colors for the lines of the triangle formed by linecross analysis}
 }
 \value{
 A plot of line-cross GP-maps
