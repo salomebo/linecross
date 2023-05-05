@@ -3,10 +3,11 @@
 #'\code{linecross} uses multilinear model ...please write a proper description later
 #'
 #' @param output.model fitted model object of the format linecross
-#' @param data data.frame with three columns (derivatives, means, se)
+#' @param data data.frame with three columns (derivatives, means, standard errors)
 #' @param theta same as function \code{\link{persp}}
 #' @param phi same as function \code{\link{persp}}
 #' @param margins same as function \code{mar} in \code{\link{par}}
+#' @param col.triangle colors for the lines of the triangle formed by linecross analysis
 #' @author Geir H. Bolstad & Salomé Bourg
 #' @return A plot of line-cross GP-maps
 #' @examples
