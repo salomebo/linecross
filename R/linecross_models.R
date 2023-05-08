@@ -38,7 +38,7 @@
 #'Models '"additive"', "dominance"', and the combined version'"add_dom" are simple models that respectively
 #'only consider additive effect, dominance effect or both.
 #'
-#'Model '"classic"' is the classic line cross model parameterized with additive (\alpha) and dominance (\delta)
+#'Model '"classic"' is the classic line cross model parameterized with additive (alpha) and dominance (delta)
 #'effects rather than effects of substitutions (Lynch and Walsh 1998), where Eaa, Ead, and Edd are AxA, AxD and
 #'DxD epsitasis components respectively.
 #'
@@ -70,6 +70,8 @@
 #' mod.epistasis=linecross_models(data=data_tribolium, model="general",reference="F1", maxeval=3)
 #'
 #' @importFrom HelpersMG SEfromHessian
+#' @importFrom stats optim weighted.mean
+#'
 #'
 #' @export
 #'

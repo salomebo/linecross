@@ -9,7 +9,7 @@
 #' @param phi same as function \code{\link{persp}}
 #' @param margins same as function \code{mar} in \code{\link{par}}
 #' @param col.triangle colors for the lines of the triangle formed by linecross analysis. See details.
-#' @author Geir H. Bolstad & Salomé Bourg
+#' @author Geir H. Bolstad & Salom`e Bourg
 #' @return A 3D plot of line-cross GP-map
 #' @details
 #' The axes are genotypes (proportion of P2 alleles, denoted S), heterozygosity (the probability that
@@ -29,7 +29,8 @@
 #' mod.epistasis=linecross_models(data=data_tribolium, model="general",reference="F1", maxeval=3)
 #'
 #' ## Plot the corresponding linecross GPmap
-#' plot_linecross(output.model=mod.epistasis, data=data_tribolium, theta=-60, phi=20, margins=c(2,2,2,2), col.triangle="gray80")
+#' plot_linecross(output.model=mod.epistasis, data=data_tribolium, theta=-60, phi=20,
+#' margins=c(2,2,2,2), col.triangle="gray80")
 #'
 #' @seealso for X-Y-Z plotting see ‘persp’
 #'

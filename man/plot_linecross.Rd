@@ -9,7 +9,7 @@ plot_linecross(output.model, data, theta, phi, margins, col.triangle)
 \arguments{
 \item{output.model}{fitted model object of the format linecross}
 
-\item{data}{data.frame with three columns (derivatives, means, standard errors)}
+\item{data}{data.frame with three columns (derivatives, means, standard errors). See data_tribolium for an example.}
 
 \item{theta}{same as function \code{\link{persp}}}
 
@@ -17,18 +17,40 @@ plot_linecross(output.model, data, theta, phi, margins, col.triangle)
 
 \item{margins}{same as function \code{mar} in \code{\link{par}}}
 
-\item{col.triangle}{colors for the lines of the triangle formed by linecross analysis}
+\item{col.triangle}{colors for the lines of the triangle formed by linecross analysis. See details.}
 }
 \value{
-A plot of line-cross GP-maps
+A 3D plot of line-cross GP-map
 }
 \description{
-\code{linecross} uses multilinear model ...please write a proper description later
+\code{plot_linecross} draws a 3D plot of linecross GPmap. Black dots represent the observed mean for
+the populations and derivatives and grey dots are the predicted values.
+}
+\details{
+The axes are genotypes (proportion of P2 alleles, denoted S), heterozygosity (the probability that
+an individual has one P1 and one P2 allele at a locus, denoted H) and phenotypes. The two variables
+S and H define a two-dimensional genetic-content space, with P1, F1 and P2 at the edges. Using these
+variables in a regression with the phenotype as the response variable, this triangle becomes a surface
+where the height gives the genotypic value (i.e. the trait value of each genotype). This surface is a
+description of a two-dimensional genotype-phenotype map representing the composite (genome wide sum)
+genetic effects.
+
+If the surface is flat and tilted in the S-direction this indicates additive effects. A flat surface
+with tilt in the H-direction indicates dominance. Any non-linearities in the surface would indicate
+epistasis, and different types of epistasis will generate different non-linear surfaces.
 }
 \examples{
-#put an example there soon
+## Run the model function linecross_models
+mod.epistasis=linecross_models(data=data_tribolium, model="general",reference="F1", maxeval=3)
+
+## Plot the corresponding linecross GPmap
+plot_linecross(output.model=mod.epistasis, data=data_tribolium, theta=-60, phi=20,
+margins=c(2,2,2,2), col.triangle="gray80")
 
 }
+\seealso{
+for X-Y-Z plotting see ‘persp’
+}
 \author{
-Geir H. Bolstad & Salomé Bourg
+Geir H. Bolstad & Salom`e Bourg
 }

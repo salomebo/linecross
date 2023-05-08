@@ -1,10 +1,9 @@
 Package: linecross
 Title: Calculation of directional epistasis on linecross data
 Version: 0.0.0.9000
-Authors@R: 
-    person("Geir H.", "Bolstad", , "geir.bolstad@nina.no", role = c("aut", "cre"),
-    person("Salomé", "Bourg", , "salome.bourg@ntnu.no", role = c("aut")
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+Authors@R: c(
+    person("Geir H.", "Bolstad", email="geir.bolstad@nina.no", role = c("aut", "cre")),
+    person("Salomé", "Bourg", email="salome.bourg@ntnu.no", role = "aut"))
 Description: Provides tools for calculation directional epistasis on linecross data as defined in Hansen and Wagner (2001) <https://doi.org/10.1006/tpbi.2000.1508>. The package was released with in Bolstad et al. (2023), which contains detailed examples of use.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -15,3 +14,4 @@ Depends: R (>= 2.10)
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+LazyData: true
