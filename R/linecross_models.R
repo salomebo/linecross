@@ -3,11 +3,11 @@
 #'\code{linecross_models} fits different models derived from the multilinear model of gene
 #'interaction adapted to linecross data.
 #'
-#' @param data data.frame with three columns (derivatives, means, standard errors)
+#' @param data data.frame with three columns (derivatives, means, standard errors). See data_tribolium for an example.
 #' @param model a model to fit is required. See ‘Details’. Currently, '"additive"',  '"dominance"',  '"add_dom"',
 #' '"general"', '"general_dom"', '"generalWB"', '"generalWB_dom"', '"generalW"', '"generalW_dom"', '"generalB"',
 #'  '"generalB_dom"', '"classic"','"multilinear"', '"canalization"' and '"multilinear_add"'.
-#' @param reference the reference population (can be P1, P2, F1 or F2)
+#' @param reference the reference population (can be P1, P2, F1 or F2) as a character
 #' @param maxeval for the non-linear models ('"multilinear"', '"canalization"' and '"multilinear_add"'), an optimization algorithm is used
 #' to estimate the parameters requiring starting values. A grid search is performed on the values Yh, Y1 and Y2, their respective log
 #' likelihood is computed for each point in the grid. If the grid-search has highest likelihood for extreme values of Yh, Y1 and/or Y2, the search
