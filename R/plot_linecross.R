@@ -74,8 +74,8 @@ plot_linecross <- function(output.model,data, theta, phi, margins,col.triangle){
 
   original_mat= outer(AA,AA,FUNK)
   reverse_mat =original_mat[nrow(original_mat):1,]
-  minimum=min(sub_data$means,reverse_mat)-0.05*min(sub_data$means,reverse_mat)
-  maximum=max(sub_data$means,reverse_mat)+0.05*max(sub_data$means,reverse_mat)
+  minimum=min(sub_data$means,reverse_mat)-0.01*min(sub_data$means,reverse_mat)
+  maximum=max(sub_data$means,reverse_mat)+0.01*max(sub_data$means,reverse_mat)
   persp(x=AA, y=AA, reverse_mat, theta =theta, phi = phi, xlab="1-S" ,ylab="H",zlab="z", cex.lab=1, border="gray88",zlim=c(minimum, maximum)) -> res
 
   data.model_2D = trans3d(1-S,H, FUNK(S,H), pmat=res)
