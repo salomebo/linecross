@@ -40,7 +40,11 @@ data_test
 
 # The `linecross_models` function
 ## Choice of model
+The multilinear model is useful for studying directional epistasis in the divergence of one population from another.
+
 ## Choice of reference
+Since we want to study directional epistasis between two diverged populations, for this question it makes most sense to have the ancestral population as P1 and use this as the reference. We defined the reference population P1 as the parental population with the smallest trait mean. By doing so, the direction of epistasis corresponds to the effect of allele substitution when selection increases the trait size.
+
 ```{r}
 mod.multilinear=linecross_models(data=data_test, model="multilinear",reference="P1", maxeval=3)
 ```
@@ -52,12 +56,22 @@ episfac.p1.p2.multi= 1+ (mod.multilinear$parameters[4]/2)*mod.multilinear$parame
 episfac.p1.p2.multi
 ```
 
-The epistasis factor is 0<ef<1 corresponding to negative epistasis. This epistasis factor indicates that the P2 phenotype is only 35% of the expected phenotype under an additive model. In other words, epistasis generates a 65% (1 – 0.35) decrease of the effect of allele substitutions compared with the additive model when the trait mean (or the genotype) shifts from P1 to P2. This result also indicates that VA in the P2 population is expected to be ca. 12% (0.35^2) of the additive variance observed in the P1 population for this given trait. 
+The epistasis factor is 0<ef<1 corresponding to negative epistasis. This epistasis factor indicates that the P2 phenotype is only 35% of the expected phenotype under an additive model. In other words, epistasis generates a 65% (1 – 0.35) decrease of the effect of allele substitutions compared with the additive model when the trait mean (or the genotype) shifts from P1 to P2. This result also indicates that additive variance in the P2 population is expected to be ca. 12% (0.35^2) of the additive variance observed in the P1 population for this given trait. 
 
 ## The `plot_linecross` function
+
+The axes are genotypes (proportion of P1 alleles, denoted 1-S), heterozygosity (the probability that an individual has one P1 and one P2 allele at a locus, denoted H) and phenotypes. The two variables S and H define a two-dimensional genetic-content space, with P1, F1 and P2 at the edges. Using these variables in a regression with the phenotype as the response variable, this triangle becomes a surface where the height gives the genotypic value (i.e. the trait value of each genotype). This surface is a description of a two-dimensional genotype-phenotype map representing the composite (genome wide sum) genetic effects.
+
 ```{r,fig.height = 4.2, fig.width = 7, fig.align = "center"}
 plot_linecross(output.model=mod.multilinear, data=data_test, theta=-30, phi=20, margins=c(2,2,2,2), col.triangle="gray80")
 ```
+
+The arguments `theta` and `phi` allow for twisting the orientation of the 3D plot (same as in `persp`) and `col.triangle` determines the colors of the surfance triangle formed by the line-cross analysis. Black dots represent the observed mean for the populations and derivatives and grey dots are the predicted values.
+
+<br>
+
+The GP-map exhibits strong negative epistasis from P1 to P2 (i.e., the surface is concave in the S-direction). 
+
 
 # References
 Bolstad GH, Bourg S, Griffin DV, Pélabon C & Hansen TF. 202?. Quantifying genome-wide functional epistasis by line-cross analysis
