@@ -1,0 +1,67 @@
+---
+title: "Estimating directional epistasis"
+author: "Salomé Bourg"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Estimating directional epistasis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+# The question
+We want to estimate the directional epistasis in a morphological trait between two diverged populations. One way to study directional epistasis is to produce line-cross data. A line-cross consists of a series of crosses between two populations that have diverged via artificial or natural selection, or between inbred lines, to produce a set of standard populations, referred to as derivatives, with specific genetic properties that can be computed from quantitative genetic theory. The two parental populations, P1 and P2, assumed to be in Hardy-Weinberg equilibrium, are crossed to produce a first-generation hybrid, the F1. A second series of crosses between F1 individuals produces second-generation hybrids, the F2 population. Backcrosses B1 and B2 are produced by backcrossing the F1 with the two parental populations P1 and P2.
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(linecross)
+```
+
+# The data format
+
+```{r, out.width = '100%', echo = FALSE}
+## fig.height = 2, fig.width = 5, fig.align = "center"
+knitr::include_graphics("img/reciprocal_explanation.png")
+```
+
+
+
+```{r}
+## id trait =139
+data_test=data.frame(derivatives =c("P1","P2", "F1_12", "F1_21", "F2_12", "F2_11", "F2_22", "F2_21", "B1_12", "B1_11a", "B1_11b", "B1_21", "B2_21", "B2_22a", "B2_22b", "B2_12"), means=c(1.766, 1.847, 1.844, 1.822, NA, NA, 1.832, 1.833, 1.853, NA, 1.812, NA, 1.868,NA, 1.875, NA), se=c(0.0126, 0.0068, 0.0059, 0.0084,NA, NA, 0.0086, 0.0057, 0.0089, NA,  0.0083, NA, 0.0089, NA, 0.0071,NA))
+data_test
+```
+
+# The `linecross_models` function
+## Choice of model
+## Choice of reference
+```{r}
+mod.multilinear=linecross_models(data=data_test, model="multilinear",reference="P1", maxeval=3)
+```
+## Computing epistasis factor
+Hansen and Wagner (2001) defined a dimensionless epistasis factor that describes the rescaling of genetic effects during subsequent substitutions. In the context of line crosses this corresponds to the factor the predicted value obtained with the model containing only the reference effects (i.e. without epistasis) should be multiplied to obtain the predicted value with epistasis (Bolstad et al. 2023):
+
+```{r}
+episfac.p1.p2.multi= 1+ (mod.multilinear$parameters[4]/2)*mod.multilinear$parameters[3]
+episfac.p1.p2.multi
+```
+
+The epistasis factor is 0<ef<1 corresponding to negative epistasis. This epistasis factor indicates that the P2 phenotype is only 35% of the expected phenotype under an additive model. In other words, epistasis generates a 65% (1 – 0.35) decrease of the effect of allele substitutions compared with the additive model when the trait mean (or the genotype) shifts from P1 to P2. This result also indicates that VA in the P2 population is expected to be ca. 12% (0.35^2) of the additive variance observed in the P1 population for this given trait. 
+
+## The `plot_linecross` function
+```{r,fig.height = 4.2, fig.width = 7, fig.align = "center"}
+plot_linecross(output.model=mod.multilinear, data=data_test, theta=-30, phi=20, margins=c(2,2,2,2), col.triangle="gray80")
+```
+
+# References
+Bolstad GH, Bourg S, Griffin DV, Pélabon C & Hansen TF. 202?. Quantifying genome-wide functional epistasis by line-cross analysis
+
+Bourg S, Bolstad GH, Griffin DV, Pélabon C & Hansen TF. 202?. Directional epistasis is common in morphological traits.
+
+Hansen, T. F., & Wagner, G. P. (2001). Modeling genetic architecture: a multilinear theory of gene interaction. Theoretical population biology, 59(1), 61-86.
