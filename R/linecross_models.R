@@ -67,7 +67,7 @@
 #'
 #'
 #' @examples
-#' mod.epistasis=linecross_models(data=data_tribolium, model="general",reference="F1", maxeval=3)
+#' mod.epistasis=linecross_models(data=tribolium, model="general", reference="F1", maxeval=3)
 #'
 #' @importFrom HelpersMG SEfromHessian
 #' @importFrom stats optim weighted.mean
