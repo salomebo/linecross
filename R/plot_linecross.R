@@ -4,7 +4,7 @@
 #'the populations and derivatives and grey dots are the predicted values.
 
 #' @param output.model fitted model object of the format linecross
-#' @param data data.frame with three columns (derivatives, means, standard errors). See data_tribolium for an example.
+#' @param data data.frame with three columns (derivatives, means, standard errors). See tribolium for an example.
 #' @param theta same as function \code{\link{persp}}
 #' @param phi same as function \code{\link{persp}}
 #' @param margins same as function \code{mar} in \code{\link{par}}
@@ -26,10 +26,10 @@
 #'
 #' @examples
 #' ## Run the model function linecross_models
-#' mod.epistasis=linecross_models(data=tribolium, model="general",reference="F1", maxeval=3)
+#' mod=linecross_models(data=tribolium, model="general", reference="F1", maxeval=3)
 #'
 #' ## Plot the corresponding linecross GPmap
-#' plot_linecross(output.model=mod.epistasis, data=tribolium, theta=-60, phi=20,
+#' plot_linecross(output.model=mod, data=tribolium, theta=-60, phi=20,
 #' margins=c(2,2,2,2), col.triangle="gray80")
 #'
 #' @seealso for X-Y-Z plotting see ‘persp’
