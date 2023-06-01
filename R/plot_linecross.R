@@ -26,10 +26,10 @@
 #'
 #' @examples
 #' ## Run the model function linecross_models
-#' mod.epistasis=linecross_models(data=data_tribolium, model="general",reference="F1", maxeval=3)
+#' mod.epistasis=linecross_models(data=tribolium, model="general",reference="F1", maxeval=3)
 #'
 #' ## Plot the corresponding linecross GPmap
-#' plot_linecross(output.model=mod.epistasis, data=data_tribolium, theta=-60, phi=20,
+#' plot_linecross(output.model=mod.epistasis, data=tribolium, theta=-60, phi=20,
 #' margins=c(2,2,2,2), col.triangle="gray80")
 #'
 #' @seealso for X-Y-Z plotting see ‘persp’
