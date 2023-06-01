@@ -3,7 +3,7 @@
 #'\code{linecross_models} fits different models derived from the multilinear model of gene
 #'interaction adapted to linecross data.
 #'
-#' @param data data.frame with three columns (derivatives, means, standard errors). See data_tribolium for an example.
+#' @param data data.frame with three columns (derivatives, means, standard errors). See tribolium for an example.
 #' @param model a model to fit is required. See ‘Details’. Currently, '"additive"',  '"dominance"',  '"add_dom"',
 #' '"general"', '"general_dom"', '"generalWB"', '"generalWB_dom"', '"generalW"', '"generalW_dom"', '"generalB"',
 #'  '"generalB_dom"', '"classic"','"multilinear"', '"canalization"' and '"multilinear_add"'.
@@ -67,7 +67,7 @@
 #'
 #'
 #' @examples
-#' mod.epistasis=linecross_models(data=tribolium, model="general", reference="F1", maxeval=3)
+#' linecross_models(data=tribolium, model="general", reference="F1", maxeval=3)
 #'
 #' @importFrom HelpersMG SEfromHessian
 #' @importFrom stats optim weighted.mean

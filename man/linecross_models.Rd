@@ -7,7 +7,7 @@
 linecross_models(data, model, reference, maxeval)
 }
 \arguments{
-\item{data}{data.frame with three columns (derivatives, means, standard errors). See data_tribolium for an example.}
+\item{data}{data.frame with three columns (derivatives, means, standard errors). See tribolium for an example.}
 
 \item{model}{a model to fit is required. See ‘Details’. Currently, '"additive"',  '"dominance"',  '"add_dom"',
 '"general"', '"general_dom"', '"generalWB"', '"generalWB_dom"', '"generalW"', '"generalW_dom"', '"generalB"',
@@ -71,7 +71,7 @@ epistasis in the background of the reference population.
 Model '"generalB_dom"' is a modified version of the '"generalB"' model without additive effect.
 }
 \examples{
-mod.epistasis=linecross_models(data=data_tribolium, model="general",reference="F1", maxeval=3)
+linecross_models(data=tribolium, model="general", reference="F1", maxeval=3)
 
 }
 \references{

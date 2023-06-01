@@ -20,4 +20,4 @@
 #' Evolution, 61(3), 494-509.
 #'
 #' @source <https://doi.org/10.1111/j.1558-5646.2007.00048.x>
-"data_tribolium"
+"tribolium"
