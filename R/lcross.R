@@ -1,13 +1,13 @@
 #' linecross model fitting
 #'
-#'\code{linecross_models} fits different models derived from the multilinear model of gene
+#'\code{lcross} fits different models derived from the multilinear model of gene
 #'interaction adapted to linecross data.
 #'
-#' @param data data.frame with three columns (derivatives, means, standard errors). See tribolium for an example.
 #' @param model a model to fit is required. See ‘Details’. Currently, '"additive"',  '"dominance"',  '"add_dom"',
 #' '"general"', '"general_dom"', '"generalWB"', '"generalWB_dom"', '"generalW"', '"generalW_dom"', '"generalB"',
 #'  '"generalB_dom"', '"classic"','"multilinear"', '"canalization"' and '"multilinear_add"'.
 #' @param reference the reference population (can be P1, P2, F1 or F2) as a character
+#' @param data data.frame with three columns (derivatives, means, standard errors). See tribolium for an example.
 #' @param maxeval for the non-linear models ('"multilinear"', '"canalization"' and '"multilinear_add"'), an optimization algorithm is used
 #' to estimate the parameters requiring starting values. A grid search is performed on the values Yh, Y1 and Y2, their respective log
 #' likelihood is computed for each point in the grid. If the grid-search has highest likelihood for extreme values of Yh, Y1 and/or Y2, the search
@@ -67,7 +67,7 @@
 #'
 #'
 #' @examples
-#' linecross_models(data=tribolium, model="general", reference="F1", maxeval=3)
+#' lcross(model="general", reference="F1", data=tribolium, maxeval=3)
 #'
 #' @importFrom HelpersMG SEfromHessian
 #' @importFrom stats optim weighted.mean
@@ -77,9 +77,9 @@
 #'
 #'
 #'
-linecross_models=function(data, model, reference, maxeval){
-  linears=c("additive", "dominance", "add_dom", "general", "general_dom", "generalWB", "generalWB_dom", "generalW", "generalW_dom", "generalB", "generalB_dom", "classic")
-  non_linears= c("multilinear", "canalization","multilinear_add")
+lcross = function(model, reference, data, maxeval){
+  linear=c("additive", "dominance", "add_dom", "general", "general_dom", "generalWB", "generalWB_dom", "generalW", "generalW_dom", "generalB", "generalB_dom", "classic")
+  non_linear= c("multilinear", "canalization","multilinear_add")
   obs=data$means[!is.na(data$means)]
   SE=data$se[!is.na(data$means)]
   S=propP1[!is.na(data$means)]
@@ -98,7 +98,7 @@ linecross_models=function(data, model, reference, maxeval){
   logLikelihood<-function(DerivateResiduals, DerivateStdErr){(-1/2)*sum(DerivateResiduals^2 / DerivateStdErr^2 + log(DerivateStdErr^2)+6*log(2*pi))} ## Thomas's version
   AICfunc<-function(logLikelihood, k){-2*logLikelihood+2*k}
 
-  if(model %in% linears == TRUE) {
+  if(model %in% linear == TRUE) {
     M=Mlist[[reference]][[model]][[1]] ## selection of the right model matrix
     M=as.matrix(cbind(1,M[!is.na(data$means),])) # 1st column intercept (reference mean), 2nd column S index (slope)
     C<- solve(t(M) %*% inv_V %*% M) 	#sampling covariance matrix
@@ -109,12 +109,12 @@ linecross_models=function(data, model, reference, maxeval){
     AIC.estimation = AICfunc(logLikelihood(residuals, SE), dim(M)[2])
   }
 
-  if(model %in% non_linears == TRUE){
+  if(model %in% non_linear == TRUE){
     func.grid.ref1=function(S,H,par) eval(parse(text=Mlist[[reference]][[model]][[3]]))
     func.grid.ref2=function(S,H,par) eval(parse(text=Mlist[[reference]][[model]][[4]]))
     func.grid.complete=function(S,H,par) eval(parse(text=Mlist[[reference]][[model]][[1]]))
     func.grid.complete2=function(S,H,par) eval(parse(text=Mlist[[reference]][[model]][[5]]))
-    func.pred.non.linears <- function(par){
+    func.pred.non.linear <- function(par){
       pred <- func.grid.complete2(S,H,par)
       t(z-pred) %*% inv_V %*% (z-pred)
     }
@@ -160,7 +160,7 @@ linecross_models=function(data, model, reference, maxeval){
         }
         else break
       }
-      parameters.optim<-optim(par=c(grid[i.j[1],1],epsilon.grid[i.j[1],1], ref.grid[i.j[1],1]), fn=func.pred.non.linears, hessian=TRUE,method = "BFGS")
+      parameters.optim<-optim(par=c(grid[i.j[1],1],epsilon.grid[i.j[1],1], ref.grid[i.j[1],1]), fn=func.pred.non.linear, hessian=TRUE,method = "BFGS")
       estimates.optim=func.grid.complete2(S,H,c(parameters.optim$par[1],parameters.optim$par[2],parameters.optim$par[3]))
     }
 
@@ -197,7 +197,7 @@ linecross_models=function(data, model, reference, maxeval){
       else break
       #print(n_it)
     }
-    parameters.optim<-optim(par=c(grid[i.j[1],1], grid[i.j[2],2],epsilon.grid[i.j[1],i.j[2]], ref.grid[i.j[1],i.j[2]]), fn=func.pred.non.linears, hessian=TRUE,method = "BFGS")
+    parameters.optim<-optim(par=c(grid[i.j[1],1], grid[i.j[2],2],epsilon.grid[i.j[1],i.j[2]], ref.grid[i.j[1],i.j[2]]), fn=func.pred.non.linear, hessian=TRUE,method = "BFGS")
     estimates.optim=func.grid.complete2(S,H,c(parameters.optim$par[1],parameters.optim$par[2],parameters.optim$par[3],parameters.optim$par[4]))
   }
   no.param=length(parameters.optim$par)
