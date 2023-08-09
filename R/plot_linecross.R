@@ -1,6 +1,6 @@
 #' 3D plot of line-cross GP-map
 #'
-#'\code{plot_linecross} draws a 3D plot of linecross GPmap. Black dots represent the observed mean for
+#'\code{plot_linecross} draws a 3D plot of linecross GP-map. Black dots represent the observed mean for
 #'the populations and derivatives and grey dots are the predicted values.
 
 #' @param output.model fitted model object of the format linecross
@@ -9,7 +9,7 @@
 #' @param phi same as function \code{\link{persp}}
 #' @param margins same as function \code{mar} in \code{\link{par}}
 #' @param col.triangle colors for the lines of the triangle formed by linecross analysis. See details.
-#' @author Geir H. Bolstad & Salom`e Bourg
+#' @author Geir H. Bolstad & Salomé Bourg
 #' @return A 3D plot of line-cross GP-map
 #' @details
 #' The axes are genotypes (proportion of P2 alleles, denoted S), heterozygosity (the probability that
@@ -26,7 +26,7 @@
 #'
 #' @examples
 #' ## Run the model function linecross_models
-#' mod=linecross_models(data=tribolium, model="general", reference="F1", maxeval=3)
+#' mod=lcross(model="general", reference="F1", data=tribolium, maxeval=3)
 #'
 #' ## Plot the corresponding linecross GPmap
 #' plot_linecross(output.model=mod, data=tribolium, theta=-60, phi=20,
@@ -39,7 +39,7 @@
 #'
 #' @export
 #'
-plot_linecross <- function(output.model,data, theta, phi, margins,col.triangle){
+plot_linecross <- function(output.model, data, theta, phi, margins,col.triangle){
   par(mar=margins)
   model=output.model$model.information[[1]]
   reference=output.model$model.information[[2]]

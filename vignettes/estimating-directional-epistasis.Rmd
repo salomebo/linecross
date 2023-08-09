@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This vignette shows how to estimate the directional epistasis in a morphological trait between two diverged populations using `linecross::linecross_models`. The function `linecross_models` can fit 15 models with different reference genotypes on line-cross data in order to study directional epistasis. 
+This vignette shows how to estimate the directional epistasis in a morphological trait between two diverged populations using `linecross::lcross`. The function `lcross` can fit 15 models with different reference genotypes on line-cross data in order to study directional epistasis. 
 
 A line-cross consists of a series of crosses between two populations that have diverged via artificial or natural selection, or between inbred lines, to produce a set of standard populations, referred to as derivatives, with specific genetic properties that can be computed from quantitative genetic theory. The two parental populations, P1 and P2, assumed to be in Hardy-Weinberg equilibrium, are crossed to produce a first-generation hybrid, the F1. A second series of crosses between F1 individuals produces second-generation hybrids, the F2 population. Backcrosses B1 and B2 are produced by backcrossing the F1 with the two parental populations P1 and P2.
 
@@ -24,10 +24,10 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(linecross)
 ```
-# The `linecross_models` function
+# The `lcross` function
 
 ## The data format
-Full reciprocal crosses imply a lot of different crosses, as shown in the figure below. The function `linecross_models` requires a specific data.frame format for the argument `data` with three columns (derivatives, means and standard errors) and 16 rows. Each row corresponds to one specific derivative population (a blue circle in the figure).
+Full reciprocal crosses imply a lot of different crosses, as shown in the figure below. The function `lcross` requires a specific data.frame format for the argument `data` with three columns (derivatives, means and standard errors) and 16 rows. Each row corresponds to one specific derivative population (a blue circle in the figure).
 
 ```{r, out.width = '100%', echo = FALSE}
 ## fig.height = 2, fig.width = 5, fig.align = "center"
@@ -61,7 +61,7 @@ The multilinear model is useful for studying directional epistasis in the diverg
 Since we want to study directional epistasis between two diverged populations, for this question it makes most sense to have the ancestral population as P1 and use this as the reference. We defined the reference population P1 as the parental population with the smallest trait mean. By doing so, the direction of epistasis corresponds to the effect of allele substitution when selection increases the trait size.
 
 ```{r}
-mod.multilinear=linecross_models(data=data_test, model="multilinear",reference="P1", maxeval=3)
+mod.multilinear=lcross(data=data_test, model="multilinear",reference="P1", maxeval=3)
 cbind(mod.multilinear$parameters, mod.multilinear$parameters.se)
 ```
 ## Computing epistasis factor
