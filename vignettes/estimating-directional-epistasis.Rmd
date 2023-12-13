@@ -39,11 +39,11 @@ Your data have to follow the same format. If the full reciprocal crosses have no
 
 ```{r}
 data_test=data.frame(
-  derivatives = c("P1",    "P2",     "F1_12",  "F1_21", 
+  pop = c("P1",    "P2",     "F1_12",  "F1_21", 
                   "F2_12", "F2_11",  "F2_22",  "F2_21", 
                   "B1_12", "B1_11a", "B1_11b", "B1_21", 
                   "B2_21", "B2_22a", "B2_22b", "B2_12"),
-  means = c(1.766, 1.847, 1.844, 1.822, 
+  mean = c(1.766, 1.847, 1.844, 1.822, 
             NA,    NA,    1.832, 1.833, 
             1.853, NA,    1.812, NA, 
             1.868, NA,    1.875, NA), 
@@ -61,14 +61,14 @@ The multilinear model is useful for studying directional epistasis in the diverg
 Since we want to study directional epistasis between two diverged populations, for this question it makes most sense to have the ancestral population as P1 and use this as the reference. We defined the reference population P1 as the parental population with the smallest trait mean. By doing so, the direction of epistasis corresponds to the effect of allele substitution when selection increases the trait size.
 
 ```{r}
-mod.multilinear=lcross(data=data_test, model="multilinear",reference="P1", maxeval=3)
+mod.multilinear=lcross(model="multilinear",ref="P1", data=data_test, maxeval=3)
 cbind(mod.multilinear$parameters, mod.multilinear$parameters.se)
 ```
 ## Computing epistasis factor
 Hansen and Wagner (2001) defined a dimensionless epistasis factor that describes the rescaling of genetic effects during subsequent substitutions. In the context of line crosses this corresponds to the factor the predicted value obtained with the model containing only the reference effects (i.e. without epistasis) should be multiplied to obtain the predicted value with epistasis (Bolstad et al. 2023):
 
 ```{r}
-episfac.p1.p2.multi= 1 + (mod.multilinear$parameters[4]/2)*mod.multilinear$parameters[3]
+episfac.p1.p2.multi= 1 + (mod.multilinear$parameters["eps"]/2)*mod.multilinear$parameters["Y2"]
 names(episfac.p1.p2.multi) <- "episfac"
 episfac.p1.p2.multi
 ```
