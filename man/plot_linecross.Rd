@@ -4,20 +4,27 @@
 \alias{plot_linecross}
 \title{3D plot of line-cross GP-map}
 \usage{
-plot_linecross(output.model, data, theta, phi, margins, col.triangle)
+plot_linecross(
+  object,
+  theta = -40,
+  phi = 20,
+  margins = c(2, 2, 2, 2),
+  col.triangle = "gray80",
+  main = "default"
+)
 }
 \arguments{
-\item{output.model}{fitted model object of the format linecross}
+\item{object}{fitted model object of the format linecross}
 
-\item{data}{data.frame with three columns (derivatives, means, standard errors). See tribolium for an example.}
+\item{theta}{as in function \code{\link{persp}}}
 
-\item{theta}{same as function \code{\link{persp}}}
+\item{phi}{as in function \code{\link{persp}}}
 
-\item{phi}{same as function \code{\link{persp}}}
-
-\item{margins}{same as function \code{mar} in \code{\link{par}}}
+\item{margins}{as in function \code{mar} in \code{\link{par}}}
 
 \item{col.triangle}{colors for the lines of the triangle formed by linecross analysis. See details.}
+
+\item{main}{as in function \code{\link{plot}}. The default value is the model name.}
 }
 \value{
 A 3D plot of line-cross GP-map
@@ -44,7 +51,7 @@ epistasis, and different types of epistasis will generate different non-linear s
 mod=lcross(model="general", reference="F1", data=tribolium, maxeval=3)
 
 ## Plot the corresponding linecross GPmap
-plot_linecross(output.model=mod, data=tribolium, theta=-60, phi=20,
+plot_linecross(object=mod, data=tribolium, theta=-60, phi=20,
 margins=c(2,2,2,2), col.triangle="gray80")
 
 }

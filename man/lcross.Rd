@@ -4,16 +4,16 @@
 \alias{lcross}
 \title{linecross model fitting}
 \usage{
-lcross(model, reference, data, maxeval)
+lcross(model, ref, data, maxeval = 3)
 }
 \arguments{
 \item{model}{a model to fit is required. See ‘Details’. Currently, '"additive"',  '"dominance"',  '"add_dom"',
 '"general"', '"general_dom"', '"generalWB"', '"generalWB_dom"', '"generalW"', '"generalW_dom"', '"generalB"',
 '"generalB_dom"', '"classic"','"multilinear"', '"canalization"' and '"multilinear_add"'.}
 
-\item{reference}{the reference population (can be P1, P2, F1 or F2) as a character}
+\item{ref}{the reference population (can be P1, P2, F1 or F2) as a character}
 
-\item{data}{data.frame with three columns (derivatives, means, standard errors). See tribolium for an example.}
+\item{data}{data.frame with three columns (name of population, mean, standard error). See ipomopsis for an example.}
 
 \item{maxeval}{for the non-linear models ('"multilinear"', '"canalization"' and '"multilinear_add"'), an optimization algorithm is used
 to estimate the parameters requiring starting values. A grid search is performed on the values Yh, Y1 and Y2, their respective log
@@ -28,6 +28,8 @@ fitted model object of the format linecross_models
 interaction adapted to linecross data.
 }
 \details{
+The data need to be in the required format for the function to run. See the tribolium vignette.
+
 Model '"multilinear"' is useful for studying directional epistasis in the divergence of one population
 from another. For this question it makes most sense to have the ancestral population as P1 or P2 and use
 this as the reference. This model is non-linear.
@@ -71,16 +73,18 @@ epistasis in the background of the reference population.
 Model '"generalB_dom"' is a modified version of the '"generalB"' model without additive effect.
 }
 \examples{
-lcross(model="general", reference="F1", data=tribolium, maxeval=3)
+lcross(model="general", ref="F1", data=ipomopsis, maxeval=3)
 
 }
 \references{
-Hansen, T. F., & Wagner, G. P. (2001).
-Modeling genetic architecture: a multilinear theory of gene interaction.
-Theoretical population biology, 59(1), 61-86.
+Bolstad, G. H., Bourg, S., Griffin, D., Pélabon, C. & Hansen, T. F. (2023) Quantifying
+genome-wide functional epistasis by line-cross analysis. in prep.
 
-Lynch, M., & Walsh, B. (1998).
-Genetics and analysis of quantitative traits
+Hansen, T. F., & Wagner, G. P. (2001)
+Modeling genetic architecture: a multilinear theory of gene interaction.
+Theoretical population biology. 59:61-86.
+
+Lynch, M., & Walsh, B. (1998) Genetics and analysis of quantitative traits
 (Vol. 1, pp. 535-557). Sunderland, MA: Sinauer.
 }
 \author{
