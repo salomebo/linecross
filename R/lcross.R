@@ -244,7 +244,7 @@ if (model =="additive"){
 
 output.model=list(c(model, ref), as.vector(parameters), as.vector(parameters.se), c(dom,dom.se), as.vector(Rsquare), AIC.est, vcov, d)
 names(output.model) = c("model.information","parameters", "parameters.se", "dominance.estimate", "Rsquare", "AIC", "vcov", "data")
-names(output.model$model.information)=c("model", "refence")
+names(output.model$model.information)=c("model", "reference")
 names(output.model$parameters)=c(ref,Mlist[[ref]][[model]][[2]])
 names(output.model$parameters.se)=c(ref, Mlist[[ref]][[model]][[2]])
 names(output.model$dominance.estimate)=c("dom", "se")
