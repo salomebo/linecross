@@ -111,6 +111,7 @@ lcross = function(model, ref, data, maxeval = 3){
     d$est=as.vector(M%*%parameters)
     d$resid=as.vector(d$mean - d$est)
     AIC.est = AICfunc(logLikelihood(d$resid, d$se), length(parameters))
+    vcov <- C
   }
   
   # Non-linear models
@@ -212,8 +213,11 @@ lcross = function(model, ref, data, maxeval = 3){
     estimates.optim=func.grid.complete2(d$S,d$H,c(parameters.optim$par[1],parameters.optim$par[2],parameters.optim$par[3],parameters.optim$par[4]))
   }
   no.param=length(parameters.optim$par)
-  parameters.se=HelpersMG::SEfromHessian(parameters.optim$hessian, hessian=FALSE, silent=FALSE)[c(no.param,1:(no.param-1))]
-  parameters= parameters.optim$par[c(no.param,1:(no.param-1))]
+  Order <- c(no.param,1:(no.param-1))
+  Hessian_list <- HelpersMG::SEfromHessian(parameters.optim$hessian, hessian=TRUE, silent=FALSE)
+  vcov <- solve(Hessian_list$hessian)[Order, Order]
+  parameters.se=Hessian_list$SE[Order]
+  parameters= parameters.optim$par[Order]
   #loglik.optim= logLikelihood(residuals, SE)
   d$est = estimates.optim
   d$resid = d$mean - estimates
@@ -238,9 +242,9 @@ if (model =="additive"){
     dom.se = eval(parse(text=Mlist[[ref]]$dominance.estimate[[2]]))
 }
 
-output.model=list(c(model, ref), as.vector(parameters), as.vector(parameters.se), c(dom,dom.se), as.vector(Rsquare), AIC.est, d)
-names(output.model) = c("model.information","parameters", "parameters.se", "dominance.estimate", "Rsquare", "AIC", "data")
-names(output.model$model.information)=c("model", "refence")
+output.model=list(c(model, ref), as.vector(parameters), as.vector(parameters.se), c(dom,dom.se), as.vector(Rsquare), AIC.est, vcov, d)
+names(output.model) = c("model.information","parameters", "parameters.se", "dominance.estimate", "Rsquare", "AIC", "vcov", "data")
+names(output.model$model.information)=c("model", "reference")
 names(output.model$parameters)=c(ref,Mlist[[ref]][[model]][[2]])
 names(output.model$parameters.se)=c(ref, Mlist[[ref]][[model]][[2]])
 names(output.model$dominance.estimate)=c("dom", "se")
