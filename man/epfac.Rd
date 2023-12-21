@@ -26,7 +26,7 @@ that the estimated genetic parameters have an uncertainty that is multivariate n
 }
 \examples{
 ## Run the model function linecross_models
-mod=lcross(model="multilinear", ref="P1", data=ipomopsis, maxeval=3)
+mod=lcross(model="general", ref="P1", data=ipomopsis, maxeval=3)
 
 ## Calculate the epistasis factor
 epfac(object = mod, background = "P2", n = 10)
