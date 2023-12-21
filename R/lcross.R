@@ -220,7 +220,7 @@ lcross = function(model, ref, data, maxeval = 3){
   parameters= parameters.optim$par[Order]
   #loglik.optim= logLikelihood(residuals, SE)
   d$est = estimates.optim
-  d$resid = d$mean - estimates
+  d$resid = d$mean - d$est
   AIC.est = AICfunc(logLikelihood(d$resid, d$se), length(parameters)) 
 
 } 
