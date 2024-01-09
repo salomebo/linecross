@@ -14,7 +14,7 @@
 #' grid is expanded in this direction(s). The maximum number of new search grids produced is defined by 'maxeval'.
 #' @author Geir H. Bolstad & Salomé Bourg
 #' @return fitted model object of the format linecross_models
-#' @references Bolstad, G. H., Bourg, S., Griffin, D., Pélabon, C. & Hansen, T. F. (2023) Quantifying 
+#' @references Bolstad, G. H., Bourg, S., Griffin, D., Pélabon, C. & Hansen, T. F. (2023) Quantifying
 #' genome-wide functional epistasis by line-cross analysis. in prep.
 #'
 #' Hansen, T. F., & Wagner, G. P. (2001)
@@ -26,7 +26,7 @@
 #'
 #' @details
 #' The data need to be in the required format for the function to run. See the tribolium vignette.
-#' 
+#'
 #' Model '"multilinear"' is useful for studying directional epistasis in the divergence of one population
 #' from another. For this question it makes most sense to have the ancestral population as P1 or P2 and use
 #' this as the reference. This model is non-linear.
@@ -84,7 +84,7 @@
 
 
 lcross = function(model, ref, data, maxeval = 3){
-  
+
   d <- subset(data, !is.na(mean) & !is.na(se))
   data_order <- match(d$pop, names(S))
   d$S = S[data_order]
@@ -94,16 +94,16 @@ lcross = function(model, ref, data, maxeval = 3){
   inv_V=solve(V)
 
   # AIC function
-  logLikelihood<-function(resid, se){ 
+  logLikelihood<-function(resid, se){
     (-1/2)*sum(resid^2/se^2 + log(se^2)+6*log(2*pi))
-    } 
+    }
   AICfunc<-function(logLik, k){-2*logLik+2*k}
-  
+
   # Linear models
-  linear = c("additive", "dominance", "add_dom", "general", "general_dom", "generalWB", 
+  linear = c("additive", "dominance", "add_dom", "general", "general_dom", "generalWB",
              "generalWB_dom", "generalW", "generalW_dom", "generalB", "generalB_dom", "classic")
   if(model %in% linear == TRUE) {
-    M=Mlist[[ref]][[model]][[1]] 
+    M=Mlist[[ref]][[model]][[1]]
     M=as.matrix(cbind(1, M[data_order,])) # the model matrix
     C<- solve(t(M) %*% inv_V %*% M) 	    # the sampling covariance matrix
     parameters<- C %*% t(M) %*% inv_V%*% d$mean
@@ -113,10 +113,10 @@ lcross = function(model, ref, data, maxeval = 3){
     AIC.est = AICfunc(logLikelihood(d$resid, d$se), length(parameters))
     vcov <- C
   }
-  
+
   # Non-linear models
   non_linear = c("multilinear", "canalization","multilinear_add")
-  if(model %in% non_linear == TRUE){ 
+  if(model %in% non_linear == TRUE){
     func.grid.ref1=function(S,H,par) eval(parse(text=Mlist[[ref]][[model]][[3]]))
     func.grid.ref2=function(S,H,par) eval(parse(text=Mlist[[ref]][[model]][[4]]))
     func.grid.complete=function(S,H,par) eval(parse(text=Mlist[[ref]][[model]][[1]]))
@@ -134,7 +134,7 @@ lcross = function(model, ref, data, maxeval = 3){
     if(is.na(wm.Yh)){
       d_sub = subset(d, pop%in%c("F2_12","F2_21","F2_11","F2_22"))
       wm.Yh = weighted.mean(d_sub$mean, 1/d_sub$se^2)
-    } 
+    }
     grid.Yh = seq((wm.Yh-ref.mean)*(-10),(wm.Yh-ref.mean)*10, length.out=100)
     grid = data.frame(cbind(grid.Yh,grid.Y1, grid.Y2))
     names(grid)=c("Yh","Y1","Y2") ## it's actually only Y for pure_epi when ref=F1/F2...
@@ -146,13 +146,13 @@ lcross = function(model, ref, data, maxeval = 3){
     ref.grid = matrix(NA, ncol=dim(grid)[2]*dim(grid)[1]-(98+dim(grid)[2]), nrow=length(grid[,1]))
     edges_grid = c(1,100)
 
-    if(ncol(grid)==1){	
+    if(ncol(grid)==1){
       for(n_it in 1:maxeval){
         grid[abs(grid)<0.001]=0 #to avoid very little variation in the model matrix
         for(i in 1:dim(grid)[1]){
           Y=d$mean-func.grid.ref1(d$S,d$H, grid[i,1])
           if(grid[i,1]==0){
-            M=rep(1,length(obs))
+            M=rep(1,nrow(d))
             C<- solve(t(M) %*% inv_V %*% M) 	#sampling covariance matrix
             parameters<- rbind(C %*% t(M) %*% inv_V%*% Y,0)
           } else{
@@ -176,7 +176,7 @@ lcross = function(model, ref, data, maxeval = 3){
       estimates.optim = func.grid.complete2(d$S,d$H,c(parameters.optim$par[1],parameters.optim$par[2],parameters.optim$par[3]))
     }
 
-    if(ncol(grid)==2){	
+    if(ncol(grid)==2){
       for(n_it in 1:maxeval){
         grid[abs(grid)<0.001]=0 # to avoid very little variation in the model matrix
         for(i in 1:dim(grid)[1]){
@@ -221,9 +221,9 @@ lcross = function(model, ref, data, maxeval = 3){
   #loglik.optim= logLikelihood(residuals, SE)
   d$est = estimates.optim
   d$resid = d$mean - d$est
-  AIC.est = AICfunc(logLikelihood(d$resid, d$se), length(parameters)) 
+  AIC.est = AICfunc(logLikelihood(d$resid, d$se), length(parameters))
 
-} 
+}
 
 # All models
 G_SSe = t(d$resid) %*% inv_V %*% d$resid
@@ -232,12 +232,12 @@ G_SSt = t(d$mean-global.mean) %*% inv_V %*% (d$mean - global.mean)
 Rsquare = 1 - G_SSe/G_SSt
 
 L <- t(chol(V))
-d$transformed.est <- forwardsolve(L, d$est) 
+d$transformed.est <- forwardsolve(L, d$est)
 d$transformed.resid <- forwardsolve(L, d$mean) - d$transformed.est
 
-if (model =="additive"){ 
+if (model =="additive"){
   dom = NA ; dom.se = NA
-} else { 
+} else {
     dom = eval(parse(text=Mlist[[ref]]$dominance.estimate[[1]]))
     dom.se = eval(parse(text=Mlist[[ref]]$dominance.estimate[[2]]))
 }
