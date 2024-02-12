@@ -102,7 +102,7 @@ lcross = function(model, ref, data, maxeval = 3){
   # Linear models
   linear = c("additive", "dominance", "add_dom", "general", "general_dom", "generalWB",
              "generalWB_dom", "generalW", "generalW_dom", "generalB", "generalB_dom", "classic")
-  if(model %in% linear == TRUE) {
+  if(model %in% linear) {
     M=Mlist[[ref]][[model]][[1]]
     M=as.matrix(cbind(1, M[data_order,])) # the model matrix
     C<- solve(t(M) %*% inv_V %*% M) 	    # the sampling covariance matrix
@@ -116,7 +116,7 @@ lcross = function(model, ref, data, maxeval = 3){
 
   # Non-linear models
   non_linear = c("multilinear", "canalization","multilinear_add")
-  if(model %in% non_linear == TRUE){
+  if(model %in% non_linear){
     func.grid.ref1=function(S,H,par) eval(parse(text=Mlist[[ref]][[model]][[3]]))
     func.grid.ref2=function(S,H,par) eval(parse(text=Mlist[[ref]][[model]][[4]]))
     func.grid.complete=function(S,H,par) eval(parse(text=Mlist[[ref]][[model]][[1]]))
@@ -129,10 +129,10 @@ lcross = function(model, ref, data, maxeval = 3){
     ref.mean = weighted.mean(d_sub$mean, 1/d_sub$se^2)
     grid.Y1 = seq((d$mean[1]-ref.mean)*(-10),(d$mean[1]-ref.mean)*10, length.out=100)
     grid.Y2 = seq((d$mean[2]-ref.mean)*(-10),(d$mean[2]-ref.mean)*10, length.out=100)
-    d_sub = subset(d, pop%in%c("F1_12","F1_21"))
+    d_sub = subset(d, pop%in%c("F1", "F1_12","F1_21"))
     wm.Yh = weighted.mean(d_sub$mean, 1/d_sub$se^2)
     if(is.na(wm.Yh)){
-      d_sub = subset(d, pop%in%c("F2_12","F2_21","F2_11","F2_22"))
+      d_sub = subset(d, pop%in%c("F2", "F2_12","F2_21","F2_11","F2_22"))
       wm.Yh = weighted.mean(d_sub$mean, 1/d_sub$se^2)
     }
     grid.Yh = seq((wm.Yh-ref.mean)*(-10),(wm.Yh-ref.mean)*10, length.out=100)
