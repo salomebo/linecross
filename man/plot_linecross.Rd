@@ -10,7 +10,10 @@ plot_linecross(
   phi = 20,
   margins = c(2, 2, 2, 2),
   col.triangle = "gray80",
-  main = "default"
+  main = "default",
+  cex.text = 1.2,
+  ticktype = "simple",
+  zlab = "z"
 )
 }
 \arguments{
