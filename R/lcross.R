@@ -79,12 +79,9 @@
 #'
 #' @export
 #'
-#'
-#'
 
 
 lcross = function(model, ref, data, maxeval = 3){
-
   d <- subset(data, !is.na(mean) & !is.na(se))
   data_order <- match(d$pop, names(S))
   d$S = S[data_order]
@@ -95,7 +92,7 @@ lcross = function(model, ref, data, maxeval = 3){
 
   # AIC function
   logLikelihood<-function(resid, se){
-    (-1/2)*sum(resid^2/se^2 + log(se^2)+6*log(2*pi))
+    (-1/2)*sum(resid^2/se^2 + log(se^2) + log(2*pi))
     }
   AICfunc<-function(logLik, k){-2*logLik+2*k}
 
@@ -115,7 +112,7 @@ lcross = function(model, ref, data, maxeval = 3){
   }
 
   # Non-linear models
-  non_linear = c("multilinear", "canalization","multilinear_add")
+  non_linear = c("multilinear", "canalization", "multilinear_add")
   if(model %in% non_linear){
     func.grid.ref1=function(S,H,par) eval(parse(text=Mlist[[ref]][[model]][[3]]))
     func.grid.ref2=function(S,H,par) eval(parse(text=Mlist[[ref]][[model]][[4]]))
@@ -123,7 +120,8 @@ lcross = function(model, ref, data, maxeval = 3){
     func.grid.complete2=function(S,H,par) eval(parse(text=Mlist[[ref]][[model]][[5]]))
     func.pred.non.linear <- function(par){
       pred <- func.grid.complete2(d$S,d$H,par)
-      t(d$mean-pred) %*% inv_V %*% (d$mean-pred)
+      # t(d$mean-pred) %*% inv_V %*% (d$mean-pred)
+      -logLikelihood(d$mean-pred, d$se)
     }
     d_sub = subset(d, pop%in%Mlist[[ref]]$ref[[1]])
     ref.mean = weighted.mean(d_sub$mean, 1/d_sub$se^2)
@@ -135,6 +133,7 @@ lcross = function(model, ref, data, maxeval = 3){
       d_sub = subset(d, pop%in%c("F2", "F2_12","F2_21","F2_11","F2_22"))
       wm.Yh = weighted.mean(d_sub$mean, 1/d_sub$se^2)
     }
+    if(wm.Yh==ref.mean) wm.Yh <- ref.mean + ref.mean/100 
     grid.Yh = seq((wm.Yh-ref.mean)*(-10),(wm.Yh-ref.mean)*10, length.out=100)
     grid = data.frame(cbind(grid.Yh,grid.Y1, grid.Y2))
     names(grid)=c("Yh","Y1","Y2") ## it's actually only Y for pure_epi when ref=F1/F2...
@@ -148,7 +147,7 @@ lcross = function(model, ref, data, maxeval = 3){
 
     if(ncol(grid)==1){
       for(n_it in 1:maxeval){
-        grid[abs(grid)<0.001]=0 #to avoid very little variation in the model matrix
+        grid[abs(grid)<0.001] = 0 # to avoid very little variation in the model matrix
         for(i in 1:dim(grid)[1]){
           Y=d$mean-func.grid.ref1(d$S,d$H, grid[i,1])
           if(grid[i,1]==0){
@@ -193,7 +192,7 @@ lcross = function(model, ref, data, maxeval = 3){
               parameters<- C %*% t(M) %*% inv_V%*% Y
           }
 
-          estimates=func.grid.complete(d$S,d$H,c(grid[i,1],grid[j,2],parameters[2,1])) + parameters[1,1]
+          estimates=func.grid.complete(d$S, d$H, c(grid[i,1], grid[j,2], parameters[2,1])) + parameters[1,1]
           residuals=d$mean-estimates
           loglik.grid[i,j]= logLikelihood(residuals, d$se)
           epsilon.grid[i,j]= parameters[2,1]
@@ -209,7 +208,7 @@ lcross = function(model, ref, data, maxeval = 3){
       else break
       #print(n_it)
     }
-    parameters.optim<-optim(par=c(grid[i.j[1],1], grid[i.j[2],2],epsilon.grid[i.j[1],i.j[2]], ref.grid[i.j[1],i.j[2]]), fn=func.pred.non.linear, hessian=TRUE,method = "BFGS")
+    parameters.optim<-optim(par=c(grid[i.j[1],1], grid[i.j[2],2], epsilon.grid[i.j[1],i.j[2]], ref.grid[i.j[1],i.j[2]]), fn=func.pred.non.linear, hessian=TRUE,method = "BFGS")
     estimates.optim=func.grid.complete2(d$S,d$H,c(parameters.optim$par[1],parameters.optim$par[2],parameters.optim$par[3],parameters.optim$par[4]))
   }
   no.param=length(parameters.optim$par)
@@ -242,11 +241,28 @@ if (model =="additive"){
     dom.se = eval(parse(text=Mlist[[ref]]$dominance.estimate[[2]]))
 }
 
-output.model=list(c(model, ref), as.vector(parameters), as.vector(parameters.se), c(dom,dom.se), as.vector(Rsquare), AIC.est, vcov, d)
-names(output.model) = c("model.information","parameters", "parameters.se", "dominance.estimate", "Rsquare", "AIC", "vcov", "data")
-names(output.model$model.information)=c("model", "reference")
-names(output.model$parameters)=c(ref,Mlist[[ref]][[model]][[2]])
-names(output.model$parameters.se)=c(ref, Mlist[[ref]][[model]][[2]])
-names(output.model$dominance.estimate)=c("dom", "se")
-return(output.model)
+output=list(c(model, ref), as.vector(parameters), as.vector(parameters.se), c(dom,dom.se), as.vector(Rsquare), AIC.est, vcov, d)
+names(output) = c("model.information","parameters", "parameters.se", "dominance.estimate", "Rsquare", "AIC", "vcov", "data")
+names(output$model.information)=c("model", "reference")
+names(output$parameters)=c(ref,Mlist[[ref]][[model]][[2]])
+names(output$parameters.se)=c(ref, Mlist[[ref]][[model]][[2]])
+names(output$dominance.estimate)=c("dom", "se")
+class(output) <- "lcross"
+return(output)
 }
+
+
+#' @export
+print.lcross <- function(object, ...) {
+  cat("Model: "); cat(object$model.information[1])
+  cat("\n")
+  cat(paste("\nReference:", object$model.information[2]))
+  cat("\n\nParameters:\n")
+  print(cbind(Estimate = object$parameters, Standard_error = object$parameters.se))
+  cat("\nR-squared:\n")
+  print(object$Rsquare)
+  cat("\nAIC:\n")
+  print(object$AIC)
+}
+
+
