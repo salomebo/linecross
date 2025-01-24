@@ -12,7 +12,7 @@ plot_linecross(
   col.triangle = "gray80",
   main = "default",
   cex.text = 1.2,
-  ticktype = "simple",
+  ticktype = "detailed",
   zlab = "z"
 )
 }

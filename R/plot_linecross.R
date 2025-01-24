@@ -40,22 +40,11 @@
 #' @export
 #'
 plot_linecross <- function(object, theta=-40, phi=20, margins=c(2,2,2,2), col.triangle="gray80", main = "default", 
-                           cex.text = 1.2, ticktype = "simple", zlab = "z"){
+                           cex.text = 1.2, ticktype = "detailed", zlab = "z"){
   par(mar=margins)
   model=object$model.information[[1]]
   reference=object$model.information[[2]]
   data <- object$data
-  # S_complete= c(1, 0, 1/2,  1/2, 1/2, 1/2, 1/2, 1/2, 3/4, 3/4, 3/4, 3/4, 1/4, 1/4, 1/4, 1/4)
-  # H_complete= c(0, 0, 1, 1, 1/2, 1/2, 1/2, 1/2, 1/2, 1/2, 1/2, 1/2, 1/2, 1/2, 1/2, 1/2)
-  # all_derivatives =  rownames(Mlist[[reference]][[model]][[1]])
-  # data=cbind(data, 
-  #            S_complete[all_derivatives%in%data$derivatives], 
-  #            H_complete[all_derivatives%in%data$derivatives])
-  #sub_data=data[!is.na(data$mean),]
-  # S = data$S_complete
-  # names(S)=data$derivatives
-  # H = data$H_complete
-  # names(H)=data$derivatives
   AA <- seq(0,1,0.1)
   ss <- c(seq(0,1,0.02), seq(1,0,-0.01))
   hh <- c(rep(0, 50), seq(0,1,0.02), seq(1,0,-0.02))
@@ -63,13 +52,15 @@ plot_linecross <- function(object, theta=-40, phi=20, margins=c(2,2,2,2), col.tr
   l2 <- 1-abs(1-2*l1)
   l3 <- seq(0.05,0.45, 0.05)
 
-  linear_mod=c("additive", "dominance", "add_dom", "general", "general_dom", "generalWB", "generalWB_dom", "generalW", "generalW_dom", "generalB", "generalB_dom", "classic")
-  if(model %in% linear_mod == TRUE) {
+  linear_mod=c("additive", "dominance", "add_dom", "general", "general_dom", "generalW1B", "generalW1B_dom", 
+               "generalW1", "generalW1_dom", "generalW2B", "generalW2B_dom", 
+               "generalW2", "generalW2_dom", "generalB", "generalB_dom", "classic")
+  if(model %in% linear_mod) {
     read.model <-function(S,H,par) eval(parse(text=Mlist[[reference]][[model]][[3]]))
     no.parameters=length(Mlist[[reference]][[model]][[2]])+1
   }
-  non_linear_mod= c("multilinear", "canalization","multilinear_add")
-  if(model %in% non_linear_mod == TRUE){
+  non_linear_mod= c("directional", "canalization","directional_add")
+  if(model %in% non_linear_mod){
     read.model <-function(S,H,par) eval(parse(text=Mlist[[reference]][[model]][[1]]))
     no.parameters=length(Mlist[[reference]][[model]][[2]])+1
   }
@@ -82,11 +73,13 @@ plot_linecross <- function(object, theta=-40, phi=20, margins=c(2,2,2,2), col.tr
   maximum=max(data$mean,reverse_mat) + 0.02*abs(max(data$mean,reverse_mat))
   persp(x=AA, y=AA, reverse_mat, theta = theta, phi = phi, xlab="1-S",
         ylab="H",zlab=zlab, cex.lab=1, border="gray88", zlim=c(minimum, maximum), 
+        scale = TRUE,
         ticktype = ticktype
         #xlim = c(-0.01, 1.01), ylim = c(-0.01, 1.01)
         ) -> res
-  data.model_2D = trans3d(1-data$S,data$H, FUNK(data$S, data$H), pmat=res)
-  data_2D =trans3d(1-data$S, data$H, data$mean, pmat=res)
+  # data.model_2D = trans3d(1-data$S,data$H, FUNK(data$S, data$H), pmat=res)
+  data.model_2D = trans3d(1-data$S, data$H, data$est,  pmat=res)#, continuous = FALSE)
+  data_2D =       trans3d(1-data$S, data$H, data$mean, pmat=res)#, continuous = FALSE)
   for(j in 1:9){
     x<-rep(l1[j], 50)
     y<-seq(0,l2[j], length.out=50)
