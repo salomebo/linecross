@@ -20,14 +20,15 @@
 #' epfac(object = mod, background = "P2", n = 10)
 #' # NB you should use n = 1000 or more to get an accurate error estimate
 #'
-#' @importFrom MASS mvrnorm
+#' @importFrom MASS mvrnorm 
+#' @importFrom Matrix nearPD 
 #'
 #' @export
 #'
 epfac <- function(object, background = "P2", n = 1000){
   model <- object$model.information["model"]
   ref <- object$model.information["reference"]
-  if(model %in% c("multilinear", "canalization","multilinear_add") == TRUE){
+  if(model %in% c("directional", "canalization","directional_add") == TRUE){
     read.model <-function(S,H,par) eval(parse(text=Mlist[[ref]][[model]][[1]]))
   } else {
     read.model <-function(S,H,par) eval(parse(text=Mlist[[ref]][[model]][[3]]))
@@ -38,11 +39,15 @@ epfac <- function(object, background = "P2", n = 1000){
   with_ep <- read.model(S[background],H[background], param1)
   no_ep   <- read.model(S[background],H[background], param2)
   epfac <- with_ep/no_ep
-  param1_dist <- MASS::mvrnorm(n, param1, object$vcov[-1,-1])
+  
+  Sigma <- object$vcov[-1,-1]
+  if(any(diag(Sigma)<0)) Sigma <- Matrix::nearPD(Sigma)$mat
+  param1_dist <- MASS::mvrnorm(n, param1, Sigma)
   param2_dist <- param1_dist
   param2_dist[, !colnames(param2_dist) %in% c("Yh", "Y1", "Y2")] <- 0
   with_ep_dist <- apply(param1_dist, 1, function(x) read.model(S[background],H[background], x))
   no_ep_dist <- apply(param2_dist, 1, function(x) read.model(S[background],H[background], x))
   epfac_dist <- with_ep_dist/no_ep_dist
+  
   return(c(epfac = epfac, SE = sd(epfac_dist), quantile(epfac_dist, c(0.025, 0.975))))
 }

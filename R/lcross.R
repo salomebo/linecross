@@ -1,20 +1,20 @@
 #' linecross model fitting
 #'
-#'\code{lcross} fits different models derived from the multilinear model of gene
-#'interaction adapted to linecross data.
+#'\code{lcross} fits different line cross model
 #'
 #' @param model a model to fit is required. See ‘Details’. Currently, '"additive"',  '"dominance"',  '"add_dom"',
-#' '"general"', '"general_dom"', '"generalWB"', '"generalWB_dom"', '"generalW"', '"generalW_dom"', '"generalB"',
-#'  '"generalB_dom"', '"classic"','"multilinear"', '"canalization"' and '"multilinear_add"'.
+#' '"general"', '"general_dom"', '"generalW1B"', '"generalW1B_dom"', '"generalW1"', '"generalW1_dom"', 
+#' '"generalW2B"', '"generalW2B_dom"', '"generalW2"', '"generalW2_dom"', '"generalB"',
+#'  '"generalB_dom"', '"classic"','"directional"', '"directional_add"', and '"canalization"'.
 #' @param ref the reference population (can be P1, P2, F1 or F2) as a character
 #' @param data data.frame with three columns (name of population, mean, standard error). See ipomopsis for an example.
-#' @param maxeval for the non-linear models ('"multilinear"', '"canalization"' and '"multilinear_add"'), an optimization algorithm is used
+#' @param maxeval for the non-linear models ('"directional"', '"canalization"' and '"directional_add"'), an optimization algorithm is used
 #' to estimate the parameters requiring starting values. A grid search is performed on the values Yh, Y1 and Y2, their respective log
 #' likelihood is computed for each point in the grid. If the grid-search has highest likelihood for extreme values of Yh, Y1 and/or Y2, the search
 #' grid is expanded in this direction(s). The maximum number of new search grids produced is defined by 'maxeval'.
 #' @author Geir H. Bolstad & Salomé Bourg
 #' @return fitted model object of the format linecross_models
-#' @references Bolstad, G. H., Bourg, S., Griffin, D., Pélabon, C. & Hansen, T. F. (2023) Quantifying
+#' @references Bolstad, G. H., Bourg, S., Griffin, D., Pélabon, C. & Hansen, T. F. (2024) Quantifying
 #' genome-wide functional epistasis by line-cross analysis. in prep.
 #'
 #' Hansen, T. F., & Wagner, G. P. (2001)
@@ -25,16 +25,18 @@
 #' (Vol. 1, pp. 535-557). Sunderland, MA: Sinauer.
 #'
 #' @details
-#' The data need to be in the required format for the function to run. See the tribolium vignette.
+#' It is highly recommended to read Bolstad et al. (2024) for understanding the different models.
+#' 
+#' The data need to be in a specific format for the function to run. See the vignettes.
 #'
-#' Model '"multilinear"' is useful for studying directional epistasis in the divergence of one population
+#' Model '"directional"' is useful for studying directional epistasis in the divergence of one population
 #' from another. For this question it makes most sense to have the ancestral population as P1 or P2 and use
 #' this as the reference. This model is non-linear.
 #'
-#' Model '"multilinear_add"' is a modified version of the multilinear model without dominance effect. This
+#' Model '"directional_add"' is a modified version of the directional model without dominance effect. This
 #' model is non-linear.
 #'
-#' Model '"canalization"' is a modified version of the multilinear model can be used to study whether the
+#' Model '"canalization"' is a modified version of the directional model can be used to study whether the
 #' parental populations are canalized (i.e. have a flatter GP-map) compared to the hybrid populations. This
 #' model makes most sense with F2 as the reference background in which to compare the parental populations.
 #' This model is non-linear.
@@ -46,28 +48,39 @@
 #' effects rather than effects of substitutions (Lynch and Walsh 1998), where Eaa, Ead, and Edd are AxA, AxD and
 #' DxD epsitasis components respectively.
 #'
-#'Model '"general"' is the most general model in the family. When P1 is the reference, Ehh describes epistatic
-#'interactions between heterozygote genotypes in the background of the P1 , Eh2 describes epistatic interactions
-#'between P2 homozygotes and heterozygotes , and E22 describes epistatic interactions between P2 homozygotes.
-#'This model is most useful as general model to study deviances from multilinearity.
+#' Model '"general"' is the most general model in the family. When P1 is the reference, Ehh describes epistatic
+#' interactions between heterozygote genotypes in the background of the P1 , Eh2 describes epistatic interactions
+#' between P2 homozygotes and heterozygotes , and E22 describes epistatic interactions between P2 homozygotes.
+#' This model is most useful as general model to study deviates from the directional epistasis model.
 #'
-#'Model '"general_dom"' is a modified version of the general epistasis model without additive effect.
+#' Model '"general_dom"' is a modified version of the general epistasis model without additive effect.
 #'
-#'Model '"generalWB"' is a modified version of the general epistasis model that specifically tests the
-#'difference between within and between population epistasis in the background of the reference hybrid population.
-#'This model makes most sense with an hybrid population (F1 or F2) as the reference background.
+#' Model '"generalW1B"' is a modified version of the general epistasis model that specifically tests the
+#' difference between within and between population epistasis in the background of the reference hybrid population.
+#' In this model within population epistasis is defined by Ew1 = -E11 = E22. 
 #'
-#'Model '"generalWB_dom"' is a modified version of the '"generalWB"' model without additive effect.
+#' Model '"generalW1B_dom"' is a modified version of the '"generalW1B"' model without additive effect.
 #'
-#'Model '"generalW"'is a modified version of the '"generalWB"' model that only estimates the within population
-#'epistasis in the background of the reference population.
+#' Model '"generalW1"'is a modified version of the '"generalW1B"' model that only estimates the within population
+#' epistasis in the background of the reference population.
 #'
-#'Model '"generalW_dom"' is a modified version of the '"generalW"' model without additive effect.
+#' Model '"generalW1_dom"' is a modified version of the '"generalW2"' model without additive effect.
 #'
-#'Model '"generalB"' is a modified version of the '"generalWB"' model that only estimates the between population
-#'epistasis in the background of the reference population.
+#' Model '"generalW2B"' is a modified version of the general epistasis model that specifically tests the
+#' difference between within and between population epistasis in the background of the reference hybrid population.
+#' In this model within population epistasis is defined by Ew2 = E11 = E22. 
 #'
-#'Model '"generalB_dom"' is a modified version of the '"generalB"' model without additive effect.
+#' Model '"generalW2B_dom"' is a modified version of the '"generalW2B"' model without additive effect.
+#'
+#' Model '"generalW2"'is a modified version of the '"generalW2B"' model that only estimates the within population
+#' epistasis in the background of the reference population.
+#'
+#' Model '"generalW2_dom"' is a modified version of the '"generalW2"' model without additive effect.
+#' 
+#' Model '"generalB"' is a modified version of the '"generalWB"' model that only estimates the between population
+#' epistasis in the background of the reference population.
+#'
+#' Model '"generalB_dom"' is a modified version of the '"generalB"' model without additive effect.
 #'
 #'
 #' @examples
@@ -88,7 +101,7 @@ lcross = function(model, ref, data, maxeval = 3){
   d$H = H[data_order]
   error=d$se^2 # assuming measures are independent
   V<-diag(error)
-  inv_V=solve(V)
+  inv_V=solve(V*10)
 
   # AIC function
   logLikelihood<-function(resid, se){
@@ -97,8 +110,9 @@ lcross = function(model, ref, data, maxeval = 3){
   AICfunc<-function(logLik, k){-2*logLik+2*k}
 
   # Linear models
-  linear = c("additive", "dominance", "add_dom", "general", "general_dom", "generalWB",
-             "generalWB_dom", "generalW", "generalW_dom", "generalB", "generalB_dom", "classic")
+  linear = c("additive", "dominance", "add_dom", "general", "general_dom", "generalW1B",
+             "generalW1B_dom", "generalW1", "generalW1_dom", "generalW2B",
+             "generalW2B_dom", "generalW2", "generalW2_dom", "generalB", "generalB_dom", "classic")
   if(model %in% linear) {
     M=Mlist[[ref]][[model]][[1]]
     M=as.matrix(cbind(1, M[data_order,])) # the model matrix
@@ -112,7 +126,7 @@ lcross = function(model, ref, data, maxeval = 3){
   }
 
   # Non-linear models
-  non_linear = c("multilinear", "canalization", "multilinear_add")
+  non_linear = c("directional", "canalization", "directional_add")
   if(model %in% non_linear){
     func.grid.ref1=function(S,H,par) eval(parse(text=Mlist[[ref]][[model]][[3]]))
     func.grid.ref2=function(S,H,par) eval(parse(text=Mlist[[ref]][[model]][[4]]))

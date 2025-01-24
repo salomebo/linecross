@@ -60,26 +60,50 @@ Mlist$P1$add_dom[[1]]=cbind(c(H), c(1-S-H/2))
 Mlist$P1$add_dom[[2]]=c("Yh", "Y2")
 Mlist$P1$add_dom[[3]]= "H*par[1] + (1-S-H/2)*par[2]"
 
-Mlist$P1$general[[1]] = cbind(c(H), c(1-S-H/2), c(1/2*H^2), c(H*(1-S-H/2)), c(1/2*(1-S-H/2)^2))
+Mlist$P1$general[[1]] = cbind(c(H), c(1-S-H/2), c(H^2), c(H*(1-S-H/2)), c((1-S-H/2)^2))
 Mlist$P1$general[[2]] = c("Yh", "Y2", "Ehh", "Eh2", "E22")
 Mlist$P1$general[[3]] = "H*par[1] + (1-S-H/2)*par[2] + H^2*par[3] + 2*H*(1-S-H/2)*par[4] + (1-S-H/2)^2*par[5]"
 Mlist$P1$general_dom[[1]] = cbind(c(H), c(H^2), c(2*H*(1-S-H/2)), c((1-S-H/2)^2))
 Mlist$P1$general_dom[[2]] = c("Yh", "Ehh", "Eh2", "E22")
 Mlist$P1$general_dom[[3]] = "H*par[1]  + H^2*par[2] + 2*H*(1-S-H/2)*par[3] + (1-S-H/2)^2*par[4]"
 
-Mlist$P1$generalWB[[1]] = cbind(c(H), c(1-S-H/2), c(1/2*(1-S-H/2)^2), c(H*(1-S)))
-Mlist$P1$generalWB[[2]] = c("Yh", "Y2", "Ew", "Eb")
-Mlist$P1$generalWB[[3]] = "H*par[1] + (1-S-H/2)*par[2] + (1-S-H/2)^2*par[3] + 2*H*(1-S)*par[4]"
-Mlist$P1$generalWB_dom[[1]] = cbind(c(H), c((1-S-H/2)^2), c(2*H*(1-S)))
-Mlist$P1$generalWB_dom[[2]] = c("Yh",  "Ew", "Eb")
-Mlist$P1$generalWB_dom[[3]] = "H*par[1] +  (1-S-H/2)^2*par[2] + 2*H*(1-S)*par[3]"
+Mlist$P1$generalW1B[[1]] = cbind(c(H), c(1-S-H/2), c((1-S-H/2)^2), c(2*H*(1-S)))
+Mlist$P1$generalW1B[[2]] = c("Yh", "Y2", "Ew1", "Eb")
+Mlist$P1$generalW1B[[3]] = "H*par[1] + (1-S-H/2)*par[2] + (1-S-H/2)^2*par[3] + 2*H*(1-S)*par[4]"
+Mlist$P1$generalW1B_dom[[1]] = cbind(c(H), c((1-S-H/2)^2), c(2*H*(1-S)))
+Mlist$P1$generalW1B_dom[[2]] = c("Yh",  "Ew1", "Eb")
+Mlist$P1$generalW1B_dom[[3]] = "H*par[1] +  (1-S-H/2)^2*par[2] + 2*H*(1-S)*par[3]"
 
-Mlist$P1$generalW[[1]] = cbind(c(H), c(1-S-H/2), c(1/2*(1-S-H/2)^2))
-Mlist$P1$generalW[[2]] = c("Yh", "Y2", "Ew")
-Mlist$P1$generalW[[3]] = "H*par[1] + (1-S-H/2)*par[2] + (1-S-H/2)^2*par[3]"
-Mlist$P1$generalW_dom[[1]] = cbind(c(H), c((1-S-H/2)^2))
-Mlist$P1$generalW_dom[[2]] = c("Yh",  "Ew")
-Mlist$P1$generalW_dom[[3]] = "H*par[1] +  (1-S-H/2)^2*par[2]"
+Mlist$P1$generalW2B = Mlist$P1$generalWB1 # for this reference the definition of Ew does not matter
+Mlist$P1$generalW2B[[2]] = c("Yh", "Y2", "Ew2", "Eb")
+Mlist$P1$generalW2B_dom = Mlist$P1$generalWB1_dom
+Mlist$P1$generalW2B_dom[[2]] = c("Yh",  "Ew2", "Eb")
+
+Mlist$P1$generalW1[[1]] = cbind(c(H), c(1-S-H/2), c((1-S-H/2)^2))
+Mlist$P1$generalW1[[2]] = c("Yh", "Y2", "Ew1")
+Mlist$P1$generalW1[[3]] = "H*par[1] + (1-S-H/2)*par[2] + (1-S-H/2)^2*par[3]"
+Mlist$P1$generalW1_dom[[1]] = cbind(c(H), c((1-S-H/2)^2))
+Mlist$P1$generalW1_dom[[2]] = c("Yh",  "Ew1")
+Mlist$P1$generalW1_dom[[3]] = "H*par[1] +  (1-S-H/2)^2*par[2]"
+
+Mlist$P1$generalW2 = Mlist$P1$generalWB1 # for this reference the definition of Ew does not matter
+Mlist$P1$generalW2[[2]] = c("Yh", "Y2", "Ew2", "Eb")
+Mlist$P1$generalW2_dom = Mlist$P1$generalWB1_dom
+Mlist$P1$generalW2_dom[[2]] = c("Yh",  "Ew2", "Eb")
+
+# Mlist$P1$generalWB[[1]] = cbind(c(H), c(1-S-H/2), c((1-S-H/2)^2), c(H*(1-S)))
+# Mlist$P1$generalWB[[2]] = c("Yh", "Y2", "Ew", "Eb")
+# Mlist$P1$generalWB[[3]] = "H*par[1] + (1-S-H/2)*par[2] + (1-S-H/2)^2*par[3] + 2*H*(1-S)*par[4]"
+# Mlist$P1$generalWB_dom[[1]] = cbind(c(H), c((1-S-H/2)^2), c(2*H*(1-S)))
+# Mlist$P1$generalWB_dom[[2]] = c("Yh",  "Ew", "Eb")
+# Mlist$P1$generalWB_dom[[3]] = "H*par[1] +  (1-S-H/2)^2*par[2] + 2*H*(1-S)*par[3]"
+# 
+# Mlist$P1$generalW[[1]] = cbind(c(H), c(1-S-H/2), c((1-S-H/2)^2))
+# Mlist$P1$generalW[[2]] = c("Yh", "Y2", "Ew")
+# Mlist$P1$generalW[[3]] = "H*par[1] + (1-S-H/2)*par[2] + (1-S-H/2)^2*par[3]"
+# Mlist$P1$generalW_dom[[1]] = cbind(c(H), c((1-S-H/2)^2))
+# Mlist$P1$generalW_dom[[2]] = c("Yh",  "Ew")
+# Mlist$P1$generalW_dom[[3]] = "H*par[1] +  (1-S-H/2)^2*par[2]"
 
 Mlist$P1$generalB[[1]] = cbind(c(H), c(1-S-H/2), c(2*H*(1-S)))
 Mlist$P1$generalB[[2]] = c("Yh", "Y2", "Eb")
@@ -92,17 +116,17 @@ Mlist$P1$classic[[1]] = cbind(c(2*S-2), c(2*H), c((2*S-2)^2), c((4*S*H-4*H)), c(
 Mlist$P1$classic[[2]] = c("alpha", "delta", "Eaa", "Ead", "Edd")
 Mlist$P1$classic[[3]] = "(2*S-2)*par[1] + 2*H*par[2] + ((2*S-2)^2)*par[3] + (4*S*H-4*H)*par[4] + (4*H^2)*par[5]"
 
-Mlist$P1$multilinear[[1]] = "H*par[1] + (1-S-H/2)*par[2] + (par[3]/2)*(H*par[1] + (1-S-H/2)*par[2])^2"
-Mlist$P1$multilinear[[2]] = c("Yh", "Y2", "eps")
-Mlist$P1$multilinear[[3]] = "H*par[1] + (1-S-H/2)*par[2]"
-Mlist$P1$multilinear[[4]] = "(1/2)*(H*par[1] + (1-S-H/2)*par[2])^2"
-Mlist$P1$multilinear[[5]] = "(H*par[1] + (1-S-H/2)*par[2] + (par[3]/2)*(H*par[1] + (1-S-H/2)*par[2])^2)+par[4]"
+Mlist$P1$directional[[1]] = "H*par[1] + (1-S-H/2)*par[2] + (par[3]/2)*(H*par[1] + (1-S-H/2)*par[2])^2"
+Mlist$P1$directional[[2]] = c("Yh", "Y2", "eps")
+Mlist$P1$directional[[3]] = "H*par[1] + (1-S-H/2)*par[2]"
+Mlist$P1$directional[[4]] = "(1/2)*(H*par[1] + (1-S-H/2)*par[2])^2"
+Mlist$P1$directional[[5]] = "(H*par[1] + (1-S-H/2)*par[2] + (par[3]/2)*(H*par[1] + (1-S-H/2)*par[2])^2)+par[4]"
 
-Mlist$P1$multilinear_add[[1]]="(1-S)*par[1] + (par[2]/2)*((1-S)*par[1])^2"
-Mlist$P1$multilinear_add[[2]]= c("Y2", "eps")
-Mlist$P1$multilinear_add[[3]]="(1-S)*par[1]"
-Mlist$P1$multilinear_add[[4]]="(1/2)*((1-S)*par[1])^2"
-Mlist$P1$multilinear_add[[5]]="((1-S)*par[1] + (par[2]/2)*((1-S)*par[1])^2)+par[3]"
+Mlist$P1$directional_add[[1]]="(1-S)*par[1] + (par[2]/2)*((1-S)*par[1])^2"
+Mlist$P1$directional_add[[2]]= c("Y2", "eps")
+Mlist$P1$directional_add[[3]]="(1-S)*par[1]"
+Mlist$P1$directional_add[[4]]="(1/2)*((1-S)*par[1])^2"
+Mlist$P1$directional_add[[5]]="((1-S)*par[1] + (par[2]/2)*((1-S)*par[1])^2)+par[3]"
 
 Mlist$P1$canalization[[1]]= "H*par[1] + (1-S-H/2)*par[2] + sign(H*par[1] + (1-S-H/2)*par[2])*(par[3]/2)*(H*par[1] + (1-S-H/2)*par[2])^2"
 Mlist$P1$canalization[[2]]=c("Yh", "Y2", "eps")
@@ -127,26 +151,40 @@ Mlist$P2$add_dom[[1]]=cbind(c(H), c(S-H/2))
 Mlist$P2$add_dom[[2]]=c("Yh", "Y1")
 Mlist$P2$add_dom[[3]]= "H*par[1] + (S-H/2)*par[2]"
 
-Mlist$P2$general[[1]] = cbind(c(H), c(S-H/2),c(1/2*H^2), c(H*(S-H/2)) , c(1/2*(S-H/2)^2))
+Mlist$P2$general[[1]] = cbind(c(H), c(S-H/2),c(H^2), c(H*(S-H/2)) , c((S-H/2)^2))
 Mlist$P2$general[[2]] = c("Yh", "Y1", "Ehh", "Eh1", "E11")
 Mlist$P2$general[[3]] = "H*par[1] + (S-H/2)*par[2] + H^2*par[3] + 2*H*(S-H/2)*par[4] + (S-H/2)^2*par[5]"
 Mlist$P2$general_dom[[1]] = cbind(c(H), c(H^2), c(2*H*(S-H/2)) , c((S-H/2)^2))
 Mlist$P2$general_dom[[2]] = c("Yh", "Ehh", "Eh1", "E11")
 Mlist$P2$general_dom[[3]] = "H*par[1] + H^2*par[2] + 2*H*(S-H/2)*par[3] + (S-H/2)^2*par[4]"
 
-Mlist$P2$generalWB[[1]] = cbind(c(H), c(S-H/2), c((S-H/2)^2), c(2*H*S))
-Mlist$P2$generalWB[[2]] = c("Yh", "Y1", "Ew", "Eb")
-Mlist$P2$generalWB[[3]] = "H*par[1] + (S-H/2)*par[2] + (S-H/2)^2*par[3] + 2*H*S*par[4]"
-Mlist$P2$generalWB_dom[[1]] = cbind(c(H), c((S-H/2)^2), c(2*H*S))
-Mlist$P2$generalWB_dom[[2]] = c("Yh", "Ew", "Eb")
-Mlist$P2$generalWB_dom[[3]] = "H*par[1] + (S-H/2)^2*par[2] + 2*H*S*par[3]"
+Mlist$P2$generalW1B[[1]] = cbind(c(H), c(S-H/2), c(-(S-H/2)^2), c(2*H*S))
+Mlist$P2$generalW1B[[2]] = c("Yh", "Y1", "Ew1", "Eb")
+Mlist$P2$generalW1B[[3]] = "H*par[1] + (S-H/2)*par[2] - (S-H/2)^2*par[3] + 2*H*S*par[4]"
+Mlist$P2$generalW1B_dom[[1]] = cbind(c(H), c(-(S-H/2)^2), c(2*H*S))
+Mlist$P2$generalW1B_dom[[2]] = c("Yh", "Ew1", "Eb")
+Mlist$P2$generalW1B_dom[[3]] = "H*par[1] - (S-H/2)^2*par[2] + 2*H*S*par[3]"
 
-Mlist$P2$generalW[[1]] = cbind(c(H), c(S-H/2), c((S-H/2)^2))
-Mlist$P2$generalW[[2]] = c("Yh", "Y1", "Ew")
-Mlist$P2$generalW[[3]] = "H*par[1] + (S-H/2)*par[2] + (S-H/2)^2*par[3]"
-Mlist$P2$generalW_dom[[1]] = cbind(c(H), c((S-H/2)^2))
-Mlist$P2$generalW_dom[[2]] = c("Yh", "Ew")
-Mlist$P2$generalW_dom[[3]] = "H*par[1] + (S-H/2)^2*par[2]"
+Mlist$P2$generalW1[[1]] = cbind(c(H), c(S-H/2), c(-(S-H/2)^2))
+Mlist$P2$generalW1[[2]] = c("Yh", "Y1", "Ew1")
+Mlist$P2$generalW1[[3]] = "H*par[1] + (S-H/2)*par[2] - (S-H/2)^2*par[3]"
+Mlist$P2$generalW1_dom[[1]] = cbind(c(H), c(-(S-H/2)^2))
+Mlist$P2$generalW1_dom[[2]] = c("Yh", "Ew1")
+Mlist$P2$generalW1_dom[[3]] = "H*par[1] - (S-H/2)^2*par[2]"
+
+Mlist$P2$generalW2B[[1]] = cbind(c(H), c(S-H/2), c((S-H/2)^2), c(2*H*S))
+Mlist$P2$generalW2B[[2]] = c("Yh", "Y1", "Ew2", "Eb")
+Mlist$P2$generalW2B[[3]] = "H*par[1] + (S-H/2)*par[2] + (S-H/2)^2*par[3] + 2*H*S*par[4]"
+Mlist$P2$generalW2B_dom[[1]] = cbind(c(H), c((S-H/2)^2), c(2*H*S))
+Mlist$P2$generalW2B_dom[[2]] = c("Yh", "Ew2", "Eb")
+Mlist$P2$generalW2B_dom[[3]] = "H*par[1] + (S-H/2)^2*par[2] + 2*H*S*par[3]"
+
+Mlist$P2$generalW2[[1]] = cbind(c(H), c(S-H/2), c((S-H/2)^2))
+Mlist$P2$generalW2[[2]] = c("Yh", "Y1", "Ew2")
+Mlist$P2$generalW2[[3]] = "H*par[1] + (S-H/2)*par[2] + (S-H/2)^2*par[3]"
+Mlist$P2$generalW2_dom[[1]] = cbind(c(H), c((S-H/2)^2))
+Mlist$P2$generalW2_dom[[2]] = c("Yh", "Ew2")
+Mlist$P2$generalW2_dom[[3]] = "H*par[1] + (S-H/2)^2*par[2]"
 
 Mlist$P2$generalB[[1]] = cbind(c(H), c(S-H/2), c(2*H*S))
 Mlist$P2$generalB[[2]] = c("Yh", "Y1", "Eb")
@@ -159,17 +197,17 @@ Mlist$P2$classic[[1]] = cbind(c(2*S), c(2*H), c(4*S^2), c(4*S*H), c(4*H^2))
 Mlist$P2$classic[[2]] = c("alpha", "delta", "Eaa", "Ead", "Edd")
 Mlist$P2$classic[[3]] = "(2*S)*par[1] + 2*H*par[2] + 4*S^2*par[3] + 4*S*H*par[4] + 4*H^2*par[5]"
 
-Mlist$P2$multilinear[[1]] = "H*par[1] + (S-H/2)*par[2] + (par[3]/2)*(H*par[1] + (S-H/2)*par[2])^2"
-Mlist$P2$multilinear[[2]] = c("Yh", "Y1", "eps")
-Mlist$P2$multilinear[[3]] = "H*par[1] + (S-H/2)*par[2]"
-Mlist$P2$multilinear[[4]] = "(1/2)*(H*par[1] + (S-H/2)*par[2])^2"
-Mlist$P2$multilinear[[5]] = "(H*par[1] + (S-H/2)*par[2] + (par[3]/2)*(H*par[1] + (S-H/2)*par[2])^2)+par[4]"
+Mlist$P2$directional[[1]] = "H*par[1] + (S-H/2)*par[2] + (par[3]/2)*(H*par[1] + (S-H/2)*par[2])^2"
+Mlist$P2$directional[[2]] = c("Yh", "Y1", "eps")
+Mlist$P2$directional[[3]] = "H*par[1] + (S-H/2)*par[2]"
+Mlist$P2$directional[[4]] = "(1/2)*(H*par[1] + (S-H/2)*par[2])^2"
+Mlist$P2$directional[[5]] = "(H*par[1] + (S-H/2)*par[2] + (par[3]/2)*(H*par[1] + (S-H/2)*par[2])^2)+par[4]"
 
-Mlist$P2$multilinear_add[[1]]="(S-H/2)*par[1] + (par[2]/2)*((S-H/2)*par[1])^2"
-Mlist$P2$multilinear_add[[2]]= c("Y1", "eps")
-Mlist$P2$multilinear_add[[3]]="(S-H/2)*par[1]"
-Mlist$P2$multilinear_add[[4]]="(1/2)*((S-H/2)*par[1])^2"
-Mlist$P2$multilinear_add[[5]]= "((S-H/2)*par[1] + (par[2]/2)*((S-H/2)*par[1])^2)+par[3]"
+Mlist$P2$directional_add[[1]]="(S-H/2)*par[1] + (par[2]/2)*((S-H/2)*par[1])^2"
+Mlist$P2$directional_add[[2]]= c("Y1", "eps")
+Mlist$P2$directional_add[[3]]="(S-H/2)*par[1]"
+Mlist$P2$directional_add[[4]]="(1/2)*((S-H/2)*par[1])^2"
+Mlist$P2$directional_add[[5]]= "((S-H/2)*par[1] + (par[2]/2)*((S-H/2)*par[1])^2)+par[3]"
 
 Mlist$P2$canalization[[1]]= "H*par[1] + (S-H/2)*par[2] + sign(H*par[1] + (S-H/2)*par[2])*(par[3]/2)*(H*par[1] + (S-H/2)*par[2])^2"
 Mlist$P2$canalization[[2]]= c("Yh", "Y1", "eps")
@@ -201,19 +239,33 @@ Mlist$F1$general_dom[[1]] = cbind(c(2*H-2), c((S-H/2)^2), c(2*(S-H/2)*(1-S-H/2))
 Mlist$F1$general_dom[[2]] = c("d", "E11", "E12", "E22")
 Mlist$F1$general_dom[[3]] = "(2*H-2)*par[1] +  (S-H/2)^2*par[2] + 2*(S-H/2)*(1-S-H/2)*par[3] + (1-S-H/2)^2*par[4]"
 
-Mlist$F1$generalWB[[1]] = cbind(c(S-H/2), c(1-S-H/2), c((S-H/2)^2+(1-S-H/2)^2), c(2*(S-H/2)*(1-S-H/2)))
-Mlist$F1$generalWB[[2]] = c("Y1", "Y2", "Ew", "Eb")
-Mlist$F1$generalWB[[3]] = "(S-H/2)*par[1] + (1-S-H/2)*par[2] + ((S-H/2)^2 +(1-S-H/2)^2)*par[3] + 2*(S-H/2)*(1-S-H/2)*par[4]"
-Mlist$F1$generalWB_dom[[1]] = cbind(c(2*H-2), c((S-H/2)^2+(1-S-H/2)^2), c(2*(S-H/2)*(1-S-H/2)))
-Mlist$F1$generalWB_dom[[2]] = c("d", "Ew", "Eb")
-Mlist$F1$generalWB_dom[[3]] = "(2*H-2)*par[1] + ((S-H/2)^2+(1-S-H/2)^2)*par[2] + 2*(S-H/2)*(1-S-H/2)*par[3]"
+Mlist$F1$generalW1B[[1]] = cbind(c(S-H/2), c(1-S-H/2), c((1-S-H/2)^2-(S-H/2)^2), c(2*(S-H/2)*(1-S-H/2)))
+Mlist$F1$generalW1B[[2]] = c("Y1", "Y2", "Ew1", "Eb")
+Mlist$F1$generalW1B[[3]] = "(S-H/2)*par[1] + (1-S-H/2)*par[2] + ((1-S-H/2)^2-(S-H/2)^2)*par[3] + 2*(S-H/2)*(1-S-H/2)*par[4]"
+Mlist$F1$generalW1B_dom[[1]] = cbind(c(2*H-2), c((1-S-H/2)^2-(S-H/2)^2), c(2*(S-H/2)*(1-S-H/2)))
+Mlist$F1$generalW1B_dom[[2]] = c("d", "Ew1", "Eb")
+Mlist$F1$generalW1B_dom[[3]] = "(2*H-2)*par[1] + ((1-S-H/2)^2-(S-H/2)^2)*par[2] + 2*(S-H/2)*(1-S-H/2)*par[3]"
 
-Mlist$F1$generalW[[1]] = cbind(c(S-H/2), c(1-S-H/2), c((S-H/2)^2+(1-S-H/2)^2))
-Mlist$F1$generalW[[2]] = c("Y1", "Y2", "Ew")
-Mlist$F1$generalW[[3]] = "(S-H/2)*par[1] + (1-S-H/2)*par[2] + ((S-H/2)^2+(1-S-H/2)^2)*par[3]"
-Mlist$F1$generalW_dom[[1]] = cbind(c(2*H-2), c((S-H/2)^2+(1-S-H/2)^2))
-Mlist$F1$generalW_dom[[2]] = c("d", "Ew")
-Mlist$F1$generalW_dom[[3]] = "(2*H-2)*par[1] + ((S-H/2)^2+(1-S-H/2)^2)*par[2]"
+Mlist$F1$generalW1[[1]] = cbind(c(S-H/2), c(1-S-H/2), c((1-S-H/2)^2-(S-H/2)^2))
+Mlist$F1$generalW1[[2]] = c("Y1", "Y2", "Ew1")
+Mlist$F1$generalW1[[3]] = "(S-H/2)*par[1] + (1-S-H/2)*par[2] + ((1-S-H/2)^2-(S-H/2)^2)*par[3]"
+Mlist$F1$generalW1_dom[[1]] = cbind(c(2*H-2), c((1-S-H/2)^2-(S-H/2)^2))
+Mlist$F1$generalW1_dom[[2]] = c("d", "Ew1")
+Mlist$F1$generalW12_dom[[3]] = "(2*H-2)*par[1] + ((1-S-H/2)^2-(S-H/2)^2)*par[2]"
+
+Mlist$F1$generalW2B[[1]] = cbind(c(S-H/2), c(1-S-H/2), c((S-H/2)^2+(1-S-H/2)^2), c(2*(S-H/2)*(1-S-H/2)))
+Mlist$F1$generalW2B[[2]] = c("Y1", "Y2", "Ew2", "Eb")
+Mlist$F1$generalW2B[[3]] = "(S-H/2)*par[1] + (1-S-H/2)*par[2] + ((S-H/2)^2+(1-S-H/2)^2)*par[3] + 2*(S-H/2)*(1-S-H/2)*par[4]"
+Mlist$F1$generalW2B_dom[[1]] = cbind(c(2*H-2), c((S-H/2)^2+(1-S-H/2)^2), c(2*(S-H/2)*(1-S-H/2)))
+Mlist$F1$generalW2B_dom[[2]] = c("d", "Ew2", "Eb")
+Mlist$F1$generalW2B_dom[[3]] = "(2*H-2)*par[1] + ((S-H/2)^2+(1-S-H/2)^2)*par[2] + 2*(S-H/2)*(1-S-H/2)*par[3]"
+
+Mlist$F1$generalW2[[1]] = cbind(c(S-H/2), c(1-S-H/2), c((S-H/2)^2+(1-S-H/2)^2))
+Mlist$F1$generalW2[[2]] = c("Y1", "Y2", "Ew2")
+Mlist$F1$generalW2[[3]] = "(S-H/2)*par[1] + (1-S-H/2)*par[2] + ((S-H/2)^2+(1-S-H/2)^2)*par[3]"
+Mlist$F1$generalW2_dom[[1]] = cbind(c(2*H-2), c((S-H/2)^2+(1-S-H/2)^2))
+Mlist$F1$generalW2_dom[[2]] = c("d", "Ew2")
+Mlist$F1$generalW2_dom[[3]] = "(2*H-2)*par[1] + ((S-H/2)^2+(1-S-H/2)^2)*par[2]"
 
 Mlist$F1$generalB[[1]] = cbind(c(S-H/2), c(1-S-H/2), c(2*(S-H/2)*(1-S-H/2)))
 Mlist$F1$generalB[[2]] = c("Y1", "Y2", "Eb")
@@ -227,17 +279,17 @@ Mlist$F1$classic[[1]] = cbind(c(2*S-1), c(2*H-2), c((2*S-1)^2), c((2*S-1)*(2*H-2
 Mlist$F1$classic[[2]] = c("alpha", "delta", "Eaa", "Ead", "Edd")
 Mlist$F1$classic[[3]] = "(2*S-1)*par[1] + (2*H-2)*par[2] + ((2*S-1)^2)*par[3] + (2*S-1)*(2*H-2)*par[4] + ((2*H-2)^2)*par[5]"
 
-Mlist$F1$multilinear[[1]] = "(S-H/2)*par[1] + (1-S-H/2)*par[2] + (par[3]/2)*((S-H/2)*par[1] + (1-S-H/2)*par[2])^2"
-Mlist$F1$multilinear[[2]] = c("Y1", "Y2", "eps")
-Mlist$F1$multilinear[[3]] = "(S-H/2)*par[1] + (1-S-H/2)*par[2]"
-Mlist$F1$multilinear[[4]] = "(1/2)*((S-H/2)*par[1] + (1-S-H/2)*par[2])^2"
-Mlist$F1$multilinear[[5]] = "((S-H/2)*par[1] + (1-S-H/2)*par[2] + (par[3]/2)*((S-H/2)*par[1] + (1-S-H/2)*par[2])^2)+par[4]"
+Mlist$F1$directional[[1]] = "(S-H/2)*par[1] + (1-S-H/2)*par[2] + (par[3]/2)*((S-H/2)*par[1] + (1-S-H/2)*par[2])^2"
+Mlist$F1$directional[[2]] = c("Y1", "Y2", "eps")
+Mlist$F1$directional[[3]] = "(S-H/2)*par[1] + (1-S-H/2)*par[2]"
+Mlist$F1$directional[[4]] = "(1/2)*((S-H/2)*par[1] + (1-S-H/2)*par[2])^2"
+Mlist$F1$directional[[5]] = "((S-H/2)*par[1] + (1-S-H/2)*par[2] + (par[3]/2)*((S-H/2)*par[1] + (1-S-H/2)*par[2])^2)+par[4]"
 
-Mlist$F1$multilinear_add[[1]]= "(S-H/2)*par[1]+ (1-S)*par[2] + (par[3]/2)*((S-H/2)*par[1] + (1-S)*par[2])^2"
-Mlist$F1$multilinear_add[[2]]=c("Y", "eps")
-Mlist$F1$multilinear_add[[3]]= "(S-H/2)*par[1]+ (1-S)*par[2]"
-Mlist$F1$multilinear_add[[4]]= "(1/2)*((S-H/2)*par[1] + (1-S)*par[2])^2"
-Mlist$F1$multilinear_add[[5]]= "((S-H/2)*par[1]+ (1-S)*par[2] + (par[3]/2)*((S-H/2)*par[1] + (1-S)*par[2])^2)+par[4]"
+Mlist$F1$directional_add[[1]]= "(S-H/2)*par[1]+ (1-S)*par[2] + (par[3]/2)*((S-H/2)*par[1] + (1-S)*par[2])^2"
+Mlist$F1$directional_add[[2]]=c("Y", "eps")
+Mlist$F1$directional_add[[3]]= "(S-H/2)*par[1]+ (1-S)*par[2]"
+Mlist$F1$directional_add[[4]]= "(1/2)*((S-H/2)*par[1] + (1-S)*par[2])^2"
+Mlist$F1$directional_add[[5]]= "((S-H/2)*par[1]+ (1-S)*par[2] + (par[3]/2)*((S-H/2)*par[1] + (1-S)*par[2])^2)+par[4]"
 
 Mlist$F1$canalization[[1]]= "(S-H/2)*par[1] + (1-S-H/2)*par[2] + sign((S-H/2)*par[1] + (1-S-H/2)*par[2])*(par[3]/2)*((S-H/2)*par[1] + (1-S-H/2)*par[2])^2"
 Mlist$F1$canalization[[2]]= c("Y1", "Y2", "eps")
@@ -268,19 +320,33 @@ Mlist$F2$general_dom[[1]] = cbind(c(2*H-1),c((S-H)^2), c(2*(S-H)*(1-S-H)), c((1-
 Mlist$F2$general_dom[[2]] = c("Yh", "E11", "E12", "E22")
 Mlist$F2$general_dom[[3]] =  "(2*H-1)*par[1] + (S-H)^2*par[2] + 2*(S-H)*(1-S-H)*par[3] + (1-S-H)^2*par[4]"
 
-Mlist$F2$generalWB[[1]] = cbind(c(S-H),c(1-S-H),c((S-H)^2 + (1-S-H)^2), c(2*(S-H)*(1-S-H)))
-Mlist$F2$generalWB[[2]] = c("Y1", "Y2", "Ew", "Eb")
-Mlist$F2$generalWB[[3]] = "(S-H)*par[1] + (1-S-H)*par[2] + par[3]*((S-H)^2 + (1-S-H)^2) + 2*(S-H)*(1-S-H)*par[4]"
-Mlist$F2$generalWB_dom[[1]] = cbind(c(2*H-1),c((S-H)^2 + (1-S-H)^2), c(2*(S-H)*(1-S-H)))
-Mlist$F2$generalWB_dom[[2]] = c("Yh", "Ew", "Eb")
-Mlist$F2$generalWB_dom[[3]] = "(2*H-1)*par[1] + ((S-H)^2 + (1-S-H)^2)*par[2] + 2*(S-H)*(1-S-H)*par[3]"
+Mlist$F2$generalW1B[[1]] = cbind(c(S-H),c(1-S-H),c((1-S-H)^2 - (S-H)^2), c(2*(S-H)*(1-S-H)))
+Mlist$F2$generalW1B[[2]] = c("Y1", "Y2", "Ew1", "Eb")
+Mlist$F2$generalW1B[[3]] = "(S-H)*par[1] + (1-S-H)*par[2] + par[3]*((1-S-H)^2 - (S-H)^2) + 2*(S-H)*(1-S-H)*par[4]"
+Mlist$F2$generalW1B_dom[[1]] = cbind(c(2*H-1),c((1-S-H)^2 - (S-H)^2), c(2*(S-H)*(1-S-H)))
+Mlist$F2$generalW1B_dom[[2]] = c("Yh", "Ew1", "Eb")
+Mlist$F2$generalW1B_dom[[3]] = "(2*H-1)*par[1] + ((1-S-H)^2 - (S-H)^2)*par[2] + 2*(S-H)*(1-S-H)*par[3]"
 
-Mlist$F2$generalW[[1]] = cbind(c(S-H),c(1-S-H),c((S-H)^2 + (1-S-H)^2))
-Mlist$F2$generalW[[2]] = c("Y1", "Y2", "Ew")
-Mlist$F2$generalW[[3]] =  "(S-H)*par[1] + (1-S-H)*par[2] + ((S-H)^2 + (1-S-H)^2)*par[3]"
-Mlist$F2$generalW_dom[[1]] = cbind(c(2*H-1),c((S-H)^2 + (1-S-H)^2))
-Mlist$F2$generalW_dom[[2]] = c("Yh", "Ew")
-Mlist$F2$generalW_dom[[3]] =  "(2*H-1)*par[1] + ((S-H)^2 + (1-S-H)^2)*par[2]"
+Mlist$F2$generalW1[[1]] = cbind(c(S-H),c(1-S-H),c((1-S-H)^2 - (S-H)^2))
+Mlist$F2$generalW1[[2]] = c("Y1", "Y2", "Ew1")
+Mlist$F2$generalW1[[3]] =  "(S-H)*par[1] + (1-S-H)*par[2] + ((1-S-H)^2 - (S-H)^2)*par[3]"
+Mlist$F2$generalW1_dom[[1]] = cbind(c(2*H-1),c((1-S-H)^2) - (S-H)^2)
+Mlist$F2$generalW1_dom[[2]] = c("Yh", "Ew1")
+Mlist$F2$generalW1_dom[[3]] =  "(2*H-1)*par[1] + ((1-S-H)^2 - (S-H)^2)*par[2]"
+
+Mlist$F2$generalW2B[[1]] = cbind(c(S-H),c(1-S-H),c((S-H)^2 + (1-S-H)^2), c(2*(S-H)*(1-S-H)))
+Mlist$F2$generalW2B[[2]] = c("Y1", "Y2", "Ew2", "Eb")
+Mlist$F2$generalW2B[[3]] = "(S-H)*par[1] + (1-S-H)*par[2] + par[3]*((S-H)^2 + (1-S-H)^2) + 2*(S-H)*(1-S-H)*par[4]"
+Mlist$F2$generalW2B_dom[[1]] = cbind(c(2*H-1),c((S-H)^2 + (1-S-H)^2), c(2*(S-H)*(1-S-H)))
+Mlist$F2$generalW2B_dom[[2]] = c("Yh", "Ew2", "Eb")
+Mlist$F2$generalW2B_dom[[3]] = "(2*H-1)*par[1] + ((S-H)^2 + (1-S-H)^2)*par[2] + 2*(S-H)*(1-S-H)*par[3]"
+
+Mlist$F2$generalW2[[1]] = cbind(c(S-H),c(1-S-H),c((S-H)^2 + (1-S-H)^2))
+Mlist$F2$generalW2[[2]] = c("Y1", "Y2", "Ew2")
+Mlist$F2$generalW2[[3]] =  "(S-H)*par[1] + (1-S-H)*par[2] + ((S-H)^2 + (1-S-H)^2)*par[3]"
+Mlist$F2$generalW2_dom[[1]] = cbind(c(2*H-1),c((S-H)^2 + (1-S-H)^2))
+Mlist$F2$generalW2_dom[[2]] = c("Yh", "Ew2")
+Mlist$F2$generalW2_dom[[3]] =  "(2*H-1)*par[1] + ((S-H)^2 + (1-S-H)^2)*par[2]"
 
 Mlist$F2$generalB[[1]] = cbind(c(S-H),c(1-S-H), c(2*(S-H)*(1-S-H)))
 Mlist$F2$generalB[[2]] = c("Y1", "Y2", "Eb")
@@ -293,17 +359,17 @@ Mlist$F2$classic[[1]] = cbind(c(2*S-1), c(2*H-1), c((2*S-1)^2), c((2*S-1)*(2*H-1
 Mlist$F2$classic[[2]] = c("alpha", "delta", "Eaa", "Ead", "Edd")
 Mlist$F2$classic[[3]] = "(2*S-1)*par[1] + (2*H-1)*par[2] + ((2*S-1)^2)*par[3] + (2*S-1)*(2*H-1)*par[4] + ((2*H-1)^2)*par[5]"
 
-Mlist$F2$multilinear[[1]] = "(S-H)*par[1] + (1-S-H)*par[2] + (par[3]/2)*((S-H)*par[1] + (1-S-H)*par[2])^2"
-Mlist$F2$multilinear[[2]] = c("Y1", "Y2", "eps")
-Mlist$F2$multilinear[[3]] = "(S-H)*par[1] + (1-S-H)*par[2]"
-Mlist$F2$multilinear[[4]] = "(1/2)*((S-H)*par[1] + (1-S-H)*par[2])^2"
-Mlist$F2$multilinear[[5]] = "((S-H)*par[1] + (1-S-H)*par[2] + (par[3]/2)*((S-H)*par[1] + (1-S-H)*par[2])^2)+par[4]"
+Mlist$F2$directional[[1]] = "(S-H)*par[1] + (1-S-H)*par[2] + (par[3]/2)*((S-H)*par[1] + (1-S-H)*par[2])^2"
+Mlist$F2$directional[[2]] = c("Y1", "Y2", "eps")
+Mlist$F2$directional[[3]] = "(S-H)*par[1] + (1-S-H)*par[2]"
+Mlist$F2$directional[[4]] = "(1/2)*((S-H)*par[1] + (1-S-H)*par[2])^2"
+Mlist$F2$directional[[5]] = "((S-H)*par[1] + (1-S-H)*par[2] + (par[3]/2)*((S-H)*par[1] + (1-S-H)*par[2])^2)+par[4]"
 
-Mlist$F2$multilinear_add[[1]]= "(S-H/2)*par[1]+ (1-S)*par[2] + (par[3]/2)*((S-H/2)*par[1] + (1-S)*par[2])^2"
-Mlist$F2$multilinear_add[[2]]= c("Y", "eps")
-Mlist$F2$multilinear_add[[3]]= "(S-H/2)*par[1]+ (1-S)*par[2]"
-Mlist$F2$multilinear_add[[4]]= "(1/2)*((S-H/2)*par[1] + (1-S)*par[2])^2"
-Mlist$F2$multilinear_add[[5]]= "((S-H/2)*par[1]+ (1-S)*par[2] + (par[3]/2)*((S-H/2)*par[1] + (1-S)*par[2])^2)+par[4]"
+Mlist$F2$directional_add[[1]]= "(S-H/2)*par[1]+ (1-S)*par[2] + (par[3]/2)*((S-H/2)*par[1] + (1-S)*par[2])^2"
+Mlist$F2$directional_add[[2]]= c("Y", "eps")
+Mlist$F2$directional_add[[3]]= "(S-H/2)*par[1]+ (1-S)*par[2]"
+Mlist$F2$directional_add[[4]]= "(1/2)*((S-H/2)*par[1] + (1-S)*par[2])^2"
+Mlist$F2$directional_add[[5]]= "((S-H/2)*par[1]+ (1-S)*par[2] + (par[3]/2)*((S-H/2)*par[1] + (1-S)*par[2])^2)+par[4]"
 
 Mlist$F2$canalization[[1]]= "(S-H)*par[1] + (1-S-H)*par[2] + sign((S-H)*par[1] + (1-S-H)*par[2])*(par[3]/2)*((S-H)*par[1] + (1-S-H)*par[2])^2"
 Mlist$F2$canalization[[2]]= c("Y1", "Y2", "eps")
